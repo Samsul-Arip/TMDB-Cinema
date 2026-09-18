@@ -105,7 +105,7 @@ Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Mo
 
 ```
 com.samsul.moviedb/
-├── MainActivity.kt             # Single-Activity entry point, Core SplashScreen setup, Edge-to-Edge
+├── MovieActivity.kt            # Single-Activity entry point, Core SplashScreen setup, Edge-to-Edge
 ├── MainApplication.kt          # Application class, Koin dependency injection initialization
 ├── core/
 │   ├── network/

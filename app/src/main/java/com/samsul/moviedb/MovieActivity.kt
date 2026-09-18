@@ -15,7 +15,7 @@ import com.samsul.moviedb.presentation.navigation.AppNavGraph
 import com.samsul.moviedb.ui.theme.CinemaBackground
 import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
-class MainActivity : ComponentActivity() {
+class MovieActivity : ComponentActivity() {
 
     override fun attachBaseContext(newBase: Context) {
         val overrideConfig = Configuration(newBase.resources.configuration).apply {

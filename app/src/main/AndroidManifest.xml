@@ -15,7 +15,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.MovieDB.Starting">
         <activity
-            android:name=".MainActivity"
+            android:name=".MovieActivity"
             android:exported="true"
             android:theme="@style/Theme.MovieDB.Starting"
             android:configChanges="orientation|screenSize|keyboardHidden|smallestScreenSize|screenLayout"
