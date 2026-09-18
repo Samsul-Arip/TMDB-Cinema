@@ -22,6 +22,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
+import com.samsul.moviedb.ui.preview.PreviewConstants
 import androidx.compose.ui.unit.dp
 import com.samsul.moviedb.R
 import com.samsul.moviedb.ui.theme.CinemaGold
@@ -63,7 +64,7 @@ fun OfflineBadge(
     }
 }
 
-@Preview(name = "Offline Badge Preview", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_OFFLINE_BADGE, showBackground = true)
 @Composable
 private fun OfflineBadgePreview() {
     TechnicalTestAndroidTheme {

@@ -2,6 +2,7 @@ package com.samsul.moviedb.data.mapper
 
 import com.google.gson.Gson
 import com.google.gson.reflect.TypeToken
+import com.samsul.moviedb.core.util.Constants
 import com.samsul.moviedb.data.local.entity.GenreEntity
 import com.samsul.moviedb.data.local.entity.MovieDetailEntity
 import com.samsul.moviedb.data.local.entity.MovieEntity
@@ -25,7 +26,7 @@ fun GenreEntity.toDomain() = Genre(id = id, name = name)
 fun GenreDto.toDomain() = Genre(id = id, name = name)
 
 // Movie mappings
-fun MovieDto.toEntity(genreId: Int, page: Int, categoryType: String = "discover") = MovieEntity(
+fun MovieDto.toEntity(genreId: Int, page: Int, categoryType: String = Constants.CATEGORY_DISCOVER) = MovieEntity(
     id = id,
     genreId = genreId,
     categoryType = categoryType,

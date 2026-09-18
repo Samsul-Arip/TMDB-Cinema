@@ -2,6 +2,7 @@ package com.samsul.moviedb.data.local.entity
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import com.samsul.moviedb.core.util.Constants
 
 @Entity(
     tableName = "movies",
@@ -10,7 +11,7 @@ import androidx.room.PrimaryKey
 data class MovieEntity(
     val id: Int,
     val genreId: Int,
-    val categoryType: String = "discover",
+    val categoryType: String = Constants.CATEGORY_DISCOVER,
     val title: String,
     val overview: String,
     val posterPath: String?,

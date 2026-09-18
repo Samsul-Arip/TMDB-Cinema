@@ -1,6 +1,7 @@
 package com.samsul.moviedb.data.repository
 
 import com.samsul.moviedb.core.network.NetworkMonitor
+import com.samsul.moviedb.core.util.Constants
 import com.samsul.moviedb.core.util.Resource
 import com.samsul.moviedb.data.local.dao.GenreDao
 import com.samsul.moviedb.data.local.dao.MovieDao
@@ -31,6 +32,14 @@ class MovieRepositoryImpl(
 
     private fun isOnline(): Boolean = networkMonitor?.isOnline() ?: true
 
+    private fun getErrorMessage(e: Exception, fallback: String): String {
+        return if (e is IOException) {
+            Constants.ERROR_NETWORK_CONNECTION
+        } else {
+            e.localizedMessage ?: fallback
+        }
+    }
+
     override fun getMovieGenres(): Flow<Resource<List<Genre>>> = flow {
         val cachedEntities = genreDao.getAllGenres().firstOrNull() ?: emptyList()
         val cachedGenres = cachedEntities.map { it.toDomain() }
@@ -38,12 +47,12 @@ class MovieRepositoryImpl(
         if (!isOnline()) {
             if (cachedGenres.isNotEmpty()) {
                 emit(Resource.Error(
-                    message = "Network connection error. Please check your internet connection.",
+                    message = Constants.ERROR_NETWORK_CONNECTION,
                     data = cachedGenres,
                     isFromCache = true
                 ))
             } else {
-                emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+                emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             }
             return@flow
         }
@@ -64,11 +73,7 @@ class MovieRepositoryImpl(
             val freshGenres = dtoList.map { it.toDomain() }
             emit(Resource.Success(data = freshGenres, isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load genres."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_GENRES)
 
             if (cachedGenres.isNotEmpty()) {
                 emit(Resource.Error(message = message, data = cachedGenres, isFromCache = true))
@@ -94,12 +99,12 @@ class MovieRepositoryImpl(
         if (!isOnline()) {
             if (cachedMovies.isNotEmpty() && page == 1) {
                 emit(Resource.Error(
-                    message = "Network connection error. Please check your internet connection.",
+                    message = Constants.ERROR_NETWORK_CONNECTION,
                     data = cachedMovies,
                     isFromCache = true
                 ))
             } else {
-                emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+                emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             }
             return@flow
         }
@@ -123,11 +128,7 @@ class MovieRepositoryImpl(
             val movies = updatedEntities.map { it.toDomain() }.distinctBy { it.id }
             emit(Resource.Success(data = movies, isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load movies."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_MOVIES)
 
             if (cachedMovies.isNotEmpty()) {
                 emit(Resource.Error(message = message, data = cachedMovies, isFromCache = true))
@@ -139,18 +140,18 @@ class MovieRepositoryImpl(
 
     override fun getLatestMovies(genreId: Int?): Flow<Resource<List<Movie>>> = flow {
         val activeGenreId = genreId ?: 0
-        val cachedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, "latest").firstOrNull() ?: emptyList()).distinctBy { it.id }
+        val cachedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, Constants.CATEGORY_LATEST).firstOrNull() ?: emptyList()).distinctBy { it.id }
         val cachedMovies = cachedEntities.map { it.toDomain() }.distinctBy { it.id }
 
         if (!isOnline()) {
             if (cachedMovies.isNotEmpty()) {
                 emit(Resource.Error(
-                    message = "Network connection error. Please check your internet connection.",
+                    message = Constants.ERROR_NETWORK_CONNECTION,
                     data = cachedMovies,
                     isFromCache = true
                 ))
             } else {
-                emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+                emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             }
             return@flow
         }
@@ -168,21 +169,17 @@ class MovieRepositoryImpl(
                 apiService.discoverMovies(
                     genreId = activeGenreId,
                     page = 1,
-                    sortBy = "primary_release_date.desc"
+                    sortBy = Constants.SORT_BY_RELEASE_DATE_DESC
                 )
             }
             val dtoList = response.results ?: emptyList()
-            val entities = dtoList.map { it.toEntity(genreId = activeGenreId, page = 1, categoryType = "latest") }
+            val entities = dtoList.map { it.toEntity(genreId = activeGenreId, page = 1, categoryType = Constants.CATEGORY_LATEST) }
             movieDao.insertMovies(entities)
 
-            val updatedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, "latest").firstOrNull() ?: entities).distinctBy { it.id }
+            val updatedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, Constants.CATEGORY_LATEST).firstOrNull() ?: entities).distinctBy { it.id }
             emit(Resource.Success(data = updatedEntities.map { it.toDomain() }.distinctBy { it.id }, isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load latest movies."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_LATEST)
 
             if (cachedMovies.isNotEmpty()) {
                 emit(Resource.Error(message = message, data = cachedMovies, isFromCache = true))
@@ -194,18 +191,18 @@ class MovieRepositoryImpl(
 
     override fun getPopularMovies(genreId: Int?): Flow<Resource<List<Movie>>> = flow {
         val activeGenreId = genreId ?: 0
-        val cachedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, "popular").firstOrNull() ?: emptyList()).distinctBy { it.id }
+        val cachedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, Constants.CATEGORY_POPULAR).firstOrNull() ?: emptyList()).distinctBy { it.id }
         val cachedMovies = cachedEntities.map { it.toDomain() }.distinctBy { it.id }
 
         if (!isOnline()) {
             if (cachedMovies.isNotEmpty()) {
                 emit(Resource.Error(
-                    message = "Network connection error. Please check your internet connection.",
+                    message = Constants.ERROR_NETWORK_CONNECTION,
                     data = cachedMovies,
                     isFromCache = true
                 ))
             } else {
-                emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+                emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             }
             return@flow
         }
@@ -221,20 +218,16 @@ class MovieRepositoryImpl(
             val response = apiService.discoverMovies(
                 genreId = apiGenreId,
                 page = 1,
-                sortBy = "popularity.desc"
+                sortBy = Constants.SORT_BY_POPULARITY_DESC
             )
             val dtoList = response.results ?: emptyList()
-            val entities = dtoList.map { it.toEntity(genreId = activeGenreId, page = 1, categoryType = "popular") }
+            val entities = dtoList.map { it.toEntity(genreId = activeGenreId, page = 1, categoryType = Constants.CATEGORY_POPULAR) }
             movieDao.insertMovies(entities)
 
-            val updatedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, "popular").firstOrNull() ?: entities).distinctBy { it.id }
+            val updatedEntities = (movieDao.getMoviesByGenreAndCategory(activeGenreId, Constants.CATEGORY_POPULAR).firstOrNull() ?: entities).distinctBy { it.id }
             emit(Resource.Success(data = updatedEntities.map { it.toDomain() }.distinctBy { it.id }, isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load popular movies."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_POPULAR)
 
             if (cachedMovies.isNotEmpty()) {
                 emit(Resource.Error(message = message, data = cachedMovies, isFromCache = true))
@@ -251,12 +244,12 @@ class MovieRepositoryImpl(
         if (!isOnline()) {
             if (cachedDetail != null) {
                 emit(Resource.Error(
-                    message = "Network connection error. Please check your internet connection.",
+                    message = Constants.ERROR_NETWORK_CONNECTION,
                     data = cachedDetail,
                     isFromCache = true
                 ))
             } else {
-                emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+                emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             }
             return@flow
         }
@@ -273,11 +266,7 @@ class MovieRepositoryImpl(
             movieDetailDao.insertMovieDetail(response.toEntity())
             emit(Resource.Success(data = response.toDomain(), isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load movie details."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_DETAIL)
 
             if (cachedDetail != null) {
                 emit(Resource.Error(message = message, data = cachedDetail, isFromCache = true))
@@ -302,12 +291,12 @@ class MovieRepositoryImpl(
         if (!isOnline()) {
             if (cachedReviews.isNotEmpty() && page == 1) {
                 emit(Resource.Error(
-                    message = "Network connection error. Please check your internet connection.",
+                    message = Constants.ERROR_NETWORK_CONNECTION,
                     data = cachedReviews,
                     isFromCache = true
                 ))
             } else {
-                emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+                emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             }
             return@flow
         }
@@ -341,11 +330,7 @@ class MovieRepositoryImpl(
                 emit(Resource.Success(data = freshReviews, isFromCache = false))
             }
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load reviews."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_REVIEWS)
 
             if (cachedReviews.isNotEmpty() && page == 1) {
                 emit(Resource.Error(message = message, data = cachedReviews, isFromCache = true))
@@ -357,7 +342,7 @@ class MovieRepositoryImpl(
 
     override fun getMovieTrailers(movieId: Int): Flow<Resource<List<Trailer>>> = flow {
         if (!isOnline()) {
-            emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+            emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             return@flow
         }
 
@@ -368,16 +353,12 @@ class MovieRepositoryImpl(
             val youtubeVideos = allVideos.filter { it.isYouTube }
 
             // Prefer Trailers, fallback to Teaser or Clips if no Trailer
-            val trailers = youtubeVideos.filter { it.type.equals("Trailer", ignoreCase = true) }
+            val trailers = youtubeVideos.filter { it.type.equals(Constants.VIDEO_TYPE_TRAILER, ignoreCase = true) }
             val finalVideos = if (trailers.isNotEmpty()) trailers else youtubeVideos
 
             emit(Resource.Success(data = finalVideos, isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to load movie trailers."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_LOAD_TRAILERS)
             emit(Resource.Error(message = message))
         }
     }
@@ -389,7 +370,7 @@ class MovieRepositoryImpl(
         }
 
         if (!isOnline()) {
-            emit(Resource.Error(message = "Network connection error. Please check your internet connection."))
+            emit(Resource.Error(message = Constants.ERROR_NETWORK_CONNECTION))
             return@flow
         }
 
@@ -400,11 +381,7 @@ class MovieRepositoryImpl(
             val movies = dtoList.map { it.toDomain() }.distinctBy { it.id }
             emit(Resource.Success(data = movies, isFromCache = false))
         } catch (e: Exception) {
-            val message = if (e is IOException) {
-                "Network connection error. Please check your internet connection."
-            } else {
-                e.localizedMessage ?: "Failed to search movies."
-            }
+            val message = getErrorMessage(e, Constants.ERROR_FAILED_SEARCH_MOVIES)
             emit(Resource.Error(message = message))
         }
     }

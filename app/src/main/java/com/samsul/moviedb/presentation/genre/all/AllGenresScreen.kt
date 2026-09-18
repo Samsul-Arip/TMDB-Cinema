@@ -73,6 +73,8 @@ import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
 import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -198,7 +200,7 @@ fun AllGenresContent(
                             IconButton(onClick = { onSearchQueryChange("") }) {
                                 Icon(
                                     imageVector = Icons.Rounded.Close,
-                                    contentDescription = "Clear",
+                                    contentDescription = stringResource(R.string.content_desc_clear),
                                     tint = Color(0xFF94A3B8),
                                     modifier = Modifier.size(18.dp)
                                 )
@@ -254,9 +256,10 @@ fun AllGenresContent(
                             // "All Movies" First Card (only when not searching)
                             if (uiState.searchQuery.isBlank()) {
                                 item(key = -1) {
+                                    val allGenreName = stringResource(R.string.all_genres)
                                     AllMoviesFeatureCard(
                                         onClick = {
-                                            onGenreClick(0, "All")
+                                            onGenreClick(0, allGenreName)
                                         }
                                     )
                                 }
@@ -342,7 +345,7 @@ fun AllMoviesFeatureCard(
                 }
 
                 Text(
-                    text = "›",
+                    text = stringResource(R.string.chevron_arrow),
                     color = CinemaAmberStart,
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
@@ -428,7 +431,7 @@ fun CinemaGenreCard(
                 }
 
                 Text(
-                    text = "›",
+                    text = stringResource(R.string.chevron_arrow),
                     color = Color(0xFF64748B),
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold
@@ -462,21 +465,14 @@ fun CinemaGenreCard(
 
 // ================= PREVIEWS =================
 
-@Preview(name = "All Genres Screen - Success", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_ALL_GENRES_SUCCESS, showBackground = true)
 @Composable
 private fun AllGenresScreenSuccessPreview() {
     TechnicalTestAndroidTheme {
         AllGenresContent(
             uiState = AllGenresUiState(
                 isLoading = false,
-                genres = listOf(
-                    Genre(28, "Action"),
-                    Genre(12, "Adventure"),
-                    Genre(16, "Animation"),
-                    Genre(35, "Comedy"),
-                    Genre(80, "Crime"),
-                    Genre(99, "Documentary")
-                )
+                genres = PreviewData.genres
             ),
             onGenreClick = { _, _ -> },
             onBackClick = {},
@@ -487,7 +483,7 @@ private fun AllGenresScreenSuccessPreview() {
     }
 }
 
-@Preview(name = "All Genres Screen - Loading", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_ALL_GENRES_LOADING, showBackground = true)
 @Composable
 private fun AllGenresScreenLoadingPreview() {
     TechnicalTestAndroidTheme {
@@ -505,7 +501,7 @@ private fun AllGenresScreenLoadingPreview() {
     }
 }
 
-@Preview(name = "All Genres Screen - Empty", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_ALL_GENRES_EMPTY, showBackground = true)
 @Composable
 private fun AllGenresScreenEmptyPreview() {
     TechnicalTestAndroidTheme {
@@ -523,13 +519,13 @@ private fun AllGenresScreenEmptyPreview() {
     }
 }
 
-@Preview(name = "Genre Category Card Preview", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_GENRE_CARD, showBackground = true)
 @Composable
 private fun CinemaGenreCardPreview() {
     TechnicalTestAndroidTheme {
         Box(modifier = Modifier.padding(16.dp).width(160.dp)) {
             CinemaGenreCard(
-                genre = Genre(28, "Action"),
+                genre = Genre(28, PreviewConstants.MOCK_GENRE_ACTION),
                 onClick = {}
             )
         }

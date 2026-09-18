@@ -78,6 +78,8 @@ import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
 import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -207,6 +209,8 @@ fun GenreContent(
                             }
                         }
 
+                        val brandPartOne = stringResource(R.string.brand_part_one)
+                        val brandPartTwo = stringResource(R.string.brand_part_two)
                         Text(
                             text = buildAnnotatedString {
                                 withStyle(
@@ -216,7 +220,7 @@ fun GenreContent(
                                         fontSize = 20.sp
                                     )
                                 ) {
-                                    append("Movie")
+                                    append(brandPartOne)
                                 }
                                 withStyle(
                                     SpanStyle(
@@ -225,7 +229,7 @@ fun GenreContent(
                                         fontSize = 20.sp
                                     )
                                 ) {
-                                    append("DB")
+                                    append(brandPartTwo)
                                 }
                             }
                         )
@@ -243,7 +247,7 @@ fun GenreContent(
                     ) {
                         Icon(
                             imageVector = Icons.Rounded.Search,
-                            contentDescription = "Search",
+                            contentDescription = stringResource(R.string.content_desc_search),
                             tint = if (uiState.isSearchActive) CinemaAmberStart else Color(0xFF94A3B8),
                             modifier = Modifier.size(20.dp)
                         )
@@ -271,7 +275,7 @@ fun GenreContent(
                                 IconButton(onClick = { onSearchQueryChange("") }) {
                                     Icon(
                                         imageVector = Icons.Rounded.Close,
-                                        contentDescription = "Clear",
+                                        contentDescription = stringResource(R.string.content_desc_clear),
                                         tint = Color(0xFF94A3B8),
                                         modifier = Modifier.size(18.dp)
                                     )
@@ -503,7 +507,7 @@ fun SvgCategoryChip(
 
 // ================= PREVIEWS =================
 
-@Preview(name = "Genre Screen - Success", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_GENRE_SUCCESS, showBackground = true)
 @Composable
 private fun GenreScreenSuccessPreview() {
     TechnicalTestAndroidTheme {
@@ -511,19 +515,9 @@ private fun GenreScreenSuccessPreview() {
             uiState = GenreUiState(
                 isLoadingGenres = false,
                 isLoadingMovies = false,
-                genres = listOf(
-                    Genre(28, "Action"),
-                    Genre(12, "Adventure"),
-                    Genre(16, "Animation"),
-                    Genre(35, "Comedy")
-                ),
+                genres = PreviewData.genres,
                 selectedGenreId = 0,
-                movies = listOf(
-                    Movie(1, "Toy Story 5", "Woody and Buzz return", "/poster1.jpg", "/backdrop1.jpg", "2026", 8.4, 500, listOf(16)),
-                    Movie(2, "Resident Evil", "Survival action", "/poster2.jpg", "/backdrop2.jpg", "2026", 8.1, 400, listOf(28)),
-                    Movie(3, "Colony", "Sci-fi thriller", "/poster3.jpg", "/backdrop3.jpg", "2026", 8.1, 300, listOf(878)),
-                    Movie(4, "The Odyssey", "Epic ancient Greece", "/poster4.jpg", "/backdrop4.jpg", "2026", 8.0, 200, listOf(12))
-                )
+                movies = PreviewData.movies
             ),
             onMovieClick = {},
             onViewAllGenresClick = {},
@@ -537,7 +531,7 @@ private fun GenreScreenSuccessPreview() {
     }
 }
 
-@Preview(name = "Genre Screen - Loading", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_GENRE_LOADING, showBackground = true)
 @Composable
 private fun GenreScreenLoadingPreview() {
     TechnicalTestAndroidTheme {
@@ -558,17 +552,15 @@ private fun GenreScreenLoadingPreview() {
     }
 }
 
-@Preview(name = "Genre Screen - Search Active", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_GENRE_SEARCH_ACTIVE, showBackground = true)
 @Composable
 private fun GenreScreenSearchPreview() {
     TechnicalTestAndroidTheme {
         GenreContent(
             uiState = GenreUiState(
                 isSearchActive = true,
-                searchQuery = "Toy",
-                searchResults = listOf(
-                    Movie(1, "Toy Story 5", "Woody and Buzz return", "/poster1.jpg", "/backdrop1.jpg", "2026", 8.4, 500, listOf(16))
-                )
+                searchQuery = PreviewConstants.MOCK_SEARCH_QUERY,
+                searchResults = listOf(PreviewData.movies.first())
             ),
             onMovieClick = {},
             onViewAllGenresClick = {},
@@ -582,7 +574,7 @@ private fun GenreScreenSearchPreview() {
     }
 }
 
-@Preview(name = "Genre Screen - Empty", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_GENRE_EMPTY, showBackground = true)
 @Composable
 private fun GenreScreenEmptyPreview() {
     TechnicalTestAndroidTheme {
@@ -604,7 +596,7 @@ private fun GenreScreenEmptyPreview() {
     }
 }
 
-@Preview(name = "Category Chip Preview", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_CATEGORY_CHIP, showBackground = true)
 @Composable
 private fun SvgCategoryChipPreview() {
     TechnicalTestAndroidTheme {
@@ -612,8 +604,8 @@ private fun SvgCategoryChipPreview() {
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            SvgCategoryChip(title = "All", isSelected = true, onClick = {})
-            SvgCategoryChip(title = "Action", isSelected = false, onClick = {})
+            SvgCategoryChip(title = PreviewConstants.MOCK_GENRE_CHIP_ALL, isSelected = true, onClick = {})
+            SvgCategoryChip(title = PreviewConstants.MOCK_GENRE_ACTION, isSelected = false, onClick = {})
         }
     }
 }

@@ -51,6 +51,11 @@
     <string name="trailer_load_failed_hint">Buka langsung di aplikasi YouTube</string>
     <string name="status_released_prefix">✓ %1$s</string>
     <string name="runtime_year_format">• %1$s • %2$s</string>
+    <string name="runtime_minutes_format">%1$d mnt</string>
+    <string name="bullet_item_format">• %1$s</string>
+    <string name="status_default_released">Dirilis</string>
+    <string name="quoted_text_format">\"%1$s\"</string>
+    <string name="default_avatar_initial">U</string>
 
     <!-- States & Common Actions -->
     <string name="retry">Try Again</string>
@@ -73,4 +78,9 @@
     <string name="content_desc_play_trailer">Play trailer</string>
     <string name="content_desc_more">More options</string>
     <string name="content_desc_youtube">YouTube</string>
+    <string name="content_desc_clear">Clear</string>
+    <string name="content_desc_search">Search</string>
+    <string name="brand_part_one">Movie</string>
+    <string name="brand_part_two">DB</string>
+    <string name="chevron_arrow">›</string>
 </resources>

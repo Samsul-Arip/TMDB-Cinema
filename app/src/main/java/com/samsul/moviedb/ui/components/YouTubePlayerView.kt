@@ -44,6 +44,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
 import androidx.compose.ui.tooling.preview.Preview
+import com.samsul.moviedb.ui.preview.PreviewConstants
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -72,14 +73,17 @@ fun Context.findActivity(): Activity? {
     return null
 }
 
+private const val YOUTUBE_APP_URI_PREFIX = "vnd.youtube:"
+private const val YOUTUBE_WEB_URL_PREFIX = "https://www.youtube.com/watch?v="
+
 /**
  * Utility to launch a YouTube video in the native app or fallback to browser.
  */
 fun openYouTubeVideo(context: Context, videoId: String) {
-    val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("vnd.youtube:$videoId")).apply {
+    val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("$YOUTUBE_APP_URI_PREFIX$videoId")).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
-    val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("https://www.youtube.com/watch?v=$videoId")).apply {
+    val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("$YOUTUBE_WEB_URL_PREFIX$videoId")).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     try {
@@ -318,10 +322,10 @@ fun AppYouTubePlayer(
     }
 }
 
-@Preview(name = "YouTube Player Placeholder Preview", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_YOUTUBE_PLAYER, showBackground = true)
 @Composable
 private fun AppYouTubePlayerPreview() {
-    AppYouTubePlayer(videoId = "dQw4w9WgXcQ")
+    AppYouTubePlayer(videoId = PreviewConstants.MOCK_TRAILER_KEY)
 }
 
 

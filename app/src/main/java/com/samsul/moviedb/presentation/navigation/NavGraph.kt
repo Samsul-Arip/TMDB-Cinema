@@ -62,16 +62,16 @@ fun AppNavGraph(
         composable(
             route = Screen.MovieList.route,
             arguments = listOf(
-                navArgument("genreId") { type = NavType.IntType },
-                navArgument("genreName") { type = NavType.StringType }
+                navArgument(Screen.ARG_GENRE_ID) { type = NavType.IntType },
+                navArgument(Screen.ARG_GENRE_NAME) { type = NavType.StringType }
             ),
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) + fadeIn() },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) + fadeOut() },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) + fadeIn() },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) + fadeOut() }
         ) { backStackEntry ->
-            val genreId = backStackEntry.arguments?.getInt("genreId") ?: 0
-            val encodedGenreName = backStackEntry.arguments?.getString("genreName") ?: ""
+            val genreId = backStackEntry.arguments?.getInt(Screen.ARG_GENRE_ID) ?: 0
+            val encodedGenreName = backStackEntry.arguments?.getString(Screen.ARG_GENRE_NAME) ?: ""
             val genreName = Uri.decode(encodedGenreName)
 
             MovieListScreen(
@@ -89,14 +89,14 @@ fun AppNavGraph(
         composable(
             route = Screen.MovieDetail.route,
             arguments = listOf(
-                navArgument("movieId") { type = NavType.IntType }
+                navArgument(Screen.ARG_MOVIE_ID) { type = NavType.IntType }
             ),
             enterTransition = { slideInHorizontally(initialOffsetX = { it }) + fadeIn() },
             exitTransition = { slideOutHorizontally(targetOffsetX = { -it }) + fadeOut() },
             popEnterTransition = { slideInHorizontally(initialOffsetX = { -it }) + fadeIn() },
             popExitTransition = { slideOutHorizontally(targetOffsetX = { it }) + fadeOut() }
         ) { backStackEntry ->
-            val movieId = backStackEntry.arguments?.getInt("movieId") ?: 0
+            val movieId = backStackEntry.arguments?.getInt(Screen.ARG_MOVIE_ID) ?: 0
 
             MovieDetailScreen(
                 movieId = movieId,

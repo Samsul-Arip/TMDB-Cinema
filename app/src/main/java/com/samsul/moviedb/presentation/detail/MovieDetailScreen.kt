@@ -64,6 +64,7 @@ import coil.compose.AsyncImage
 import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.samsul.moviedb.R
+import com.samsul.moviedb.core.util.Constants
 import com.samsul.moviedb.ui.components.AppYouTubePlayer
 import com.samsul.moviedb.ui.components.CinemaPullToRefreshBox
 import com.samsul.moviedb.ui.components.ErrorStateView
@@ -76,6 +77,8 @@ import com.samsul.moviedb.domain.model.MovieDetail
 import com.samsul.moviedb.domain.model.Review
 import com.samsul.moviedb.domain.model.Trailer
 import androidx.compose.ui.tooling.preview.Preview
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaRatingStar
@@ -497,14 +500,16 @@ fun MovieHeroSection(
                     }
 
                     // Runtime & Year
-                    val runtimeText = if (detail.runtime != null && detail.runtime > 0) "${detail.runtime} mnt" else ""
+                    val runtimeText = if (detail.runtime != null && detail.runtime > 0) {
+                        stringResource(R.string.runtime_minutes_format, detail.runtime)
+                    } else ""
                     val yearText = detail.releaseDate?.take(4) ?: ""
                     val metadataCombined = if (runtimeText.isNotEmpty() && yearText.isNotEmpty()) {
                         stringResource(R.string.runtime_year_format, runtimeText, yearText)
                     } else if (runtimeText.isNotEmpty()) {
-                        "• $runtimeText"
+                        stringResource(R.string.bullet_item_format, runtimeText)
                     } else if (yearText.isNotEmpty()) {
-                        "• $yearText"
+                        stringResource(R.string.bullet_item_format, yearText)
                     } else ""
 
                     if (metadataCombined.isNotEmpty()) {
@@ -524,7 +529,7 @@ fun MovieHeroSection(
                 Spacer(modifier = Modifier.height(8.dp))
 
                 // Release Status Badge: ✓ Dirilis
-                val statusText = detail.status?.ifBlank { null } ?: "Dirilis"
+                val statusText = detail.status?.ifBlank { null } ?: stringResource(R.string.status_default_released)
                 Surface(
                     shape = RoundedCornerShape(9.dp),
                     color = Color(0xFF15241D),
@@ -879,7 +884,8 @@ fun CinemaReviewCard(
                 verticalAlignment = Alignment.CenterVertically
             ) {
                 // User Avatar: initial circle or picture
-                val initial = review.author.trim().take(1).uppercase().ifEmpty { "U" }
+                val defaultInitial = stringResource(R.string.default_avatar_initial)
+                val initial = review.author.trim().take(1).uppercase().ifEmpty { defaultInitial }
                 if (!review.fullAvatarUrl.isNullOrBlank()) {
                     AsyncImage(
                         model = ImageRequest.Builder(LocalContext.current)
@@ -952,7 +958,7 @@ fun CinemaReviewCard(
 
             // Quoted Review Content
             Text(
-                text = "\"${review.content.trim()}\"",
+                text = stringResource(R.string.quoted_text_format, review.content.trim()),
                 style = MaterialTheme.typography.bodySmall.copy(
                     fontSize = 10.5.sp,
                     lineHeight = 16.sp
@@ -983,37 +989,16 @@ fun CinemaReviewCard(
 
 // ================= PREVIEWS =================
 
-@Preview(name = "Movie Detail Screen - Success", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_DETAIL_SUCCESS, showBackground = true)
 @Composable
 private fun MovieDetailScreenSuccessPreview() {
     TechnicalTestAndroidTheme {
         MovieDetailContent(
             uiState = MovieDetailUiState(
                 isLoadingDetail = false,
-                movieDetail = MovieDetail(
-                    id = 1,
-                    title = "Colony",
-                    overview = "Professor Se-jeong is thrust into a bloody nightmare when a rapidly mutating virus is released during a biotech conference causing authorities to seal the facility. Trapped inside with no escape, Se-jeong must fight for survival.",
-                    posterPath = "/poster.jpg",
-                    backdropPath = "/backdrop.jpg",
-                    releaseDate = "2026-04-12",
-                    voteAverage = 8.1,
-                    voteCount = 420,
-                    runtime = 123,
-                    status = "Released",
-                    genres = listOf(
-                        Genre(28, "Action"),
-                        Genre(27, "Horror"),
-                        Genre(878, "Science Fiction")
-                    )
-                ),
-                trailers = listOf(
-                    Trailer("t1", "dQw4w9WgXcQ", "Official Trailer", "YouTube", "Trailer", true)
-                ),
-                reviews = listOf(
-                    Review("r1", "Leno", "Great visual effects and intense atmosphere throughout the whole runtime. Must watch!", "2026-09-02", null, 9.0),
-                    Review("r2", "Sarah", "A gripping survival thriller with stellar performances.", "2026-09-05", null, 8.5)
-                )
+                movieDetail = PreviewData.movieDetail,
+                trailers = PreviewData.trailers,
+                reviews = PreviewData.reviews
             ),
             onBackClick = {},
             onRefresh = {},
@@ -1023,7 +1008,7 @@ private fun MovieDetailScreenSuccessPreview() {
     }
 }
 
-@Preview(name = "Movie Detail Screen - Loading", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_DETAIL_LOADING, showBackground = true)
 @Composable
 private fun MovieDetailScreenLoadingPreview() {
     TechnicalTestAndroidTheme {
@@ -1040,7 +1025,7 @@ private fun MovieDetailScreenLoadingPreview() {
     }
 }
 
-@Preview(name = "Movie Detail Screen - Error", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_DETAIL_ERROR, showBackground = true)
 @Composable
 private fun MovieDetailScreenErrorPreview() {
     TechnicalTestAndroidTheme {
@@ -1048,7 +1033,7 @@ private fun MovieDetailScreenErrorPreview() {
             uiState = MovieDetailUiState(
                 isLoadingDetail = false,
                 movieDetail = null,
-                detailError = "Network connection issue. Please check your internet connection."
+                detailError = Constants.ERROR_NETWORK_CONNECTION
             ),
             onBackClick = {},
             onRefresh = {},
@@ -1058,20 +1043,13 @@ private fun MovieDetailScreenErrorPreview() {
     }
 }
 
-@Preview(name = "Review Card Preview", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_REVIEW_CARD, showBackground = true)
 @Composable
 private fun ReviewCardPreview() {
     TechnicalTestAndroidTheme {
         Box(modifier = Modifier.padding(16.dp)) {
             CinemaReviewCard(
-                review = Review(
-                    id = "r1",
-                    author = "Leno",
-                    content = "Great visual effects and intense atmosphere throughout the whole runtime. Highly recommended for fans of the genre!",
-                    createdAt = "2026-09-02",
-                    avatarPath = null,
-                    rating = 9.0
-                )
+                review = PreviewData.reviews.first()
             )
         }
     }

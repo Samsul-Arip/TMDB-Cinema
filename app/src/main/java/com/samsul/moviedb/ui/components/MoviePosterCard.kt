@@ -45,6 +45,8 @@ import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaSurface
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 
 @Composable
@@ -167,23 +169,13 @@ fun MoviePosterCard(
     }
 }
 
-@Preview(name = "Movie Poster Card Preview", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_POSTER_CARD, showBackground = true)
 @Composable
 private fun MoviePosterCardPreview() {
     TechnicalTestAndroidTheme {
         Box(modifier = Modifier.padding(16.dp).width(160.dp)) {
             MoviePosterCard(
-                movie = Movie(
-                    id = 1,
-                    title = "Resident Evil",
-                    overview = "An action horror film.",
-                    posterPath = "/path/to/poster.jpg",
-                    backdropPath = "/path/to/backdrop.jpg",
-                    releaseDate = "2026-09-01",
-                    voteAverage = 8.1,
-                    voteCount = 450,
-                    genreIds = listOf(28)
-                ),
+                movie = PreviewData.movies[1],
                 onClick = {}
             )
         }

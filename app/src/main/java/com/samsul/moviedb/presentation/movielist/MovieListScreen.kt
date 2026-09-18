@@ -54,6 +54,8 @@ import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
 import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -226,21 +228,16 @@ fun MovieListContent(
 
 // ================= PREVIEWS =================
 
-@Preview(name = "Movie List Screen - Success", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_LIST_SUCCESS, showBackground = true)
 @Composable
 private fun MovieListScreenSuccessPreview() {
     TechnicalTestAndroidTheme {
         MovieListContent(
             uiState = MovieListUiState(
                 isLoading = false,
-                movies = listOf(
-                    Movie(1, "Toy Story 5", "Overview...", "/poster1.jpg", "/backdrop1.jpg", "2026-06-19", 8.4, 1200, listOf(16)),
-                    Movie(2, "Resident Evil", "Overview...", "/poster2.jpg", "/backdrop2.jpg", "2026-09-01", 8.1, 450, listOf(28)),
-                    Movie(3, "Colony", "Overview...", "/poster3.jpg", "/backdrop3.jpg", "2026-04-12", 7.9, 320, listOf(878)),
-                    Movie(4, "The Odyssey", "Overview...", "/poster4.jpg", "/backdrop4.jpg", "2026-11-20", 8.0, 500, listOf(12))
-                )
+                movies = PreviewData.movies
             ),
-            genreName = "Action",
+            genreName = PreviewConstants.MOCK_GENRE_ACTION,
             onMovieClick = {},
             onBackClick = {},
             onRefresh = {},
@@ -250,7 +247,7 @@ private fun MovieListScreenSuccessPreview() {
     }
 }
 
-@Preview(name = "Movie List Screen - Loading", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_LIST_LOADING, showBackground = true)
 @Composable
 private fun MovieListScreenLoadingPreview() {
     TechnicalTestAndroidTheme {
@@ -259,7 +256,7 @@ private fun MovieListScreenLoadingPreview() {
                 isLoading = true,
                 movies = emptyList()
             ),
-            genreName = "Action",
+            genreName = PreviewConstants.MOCK_GENRE_ACTION,
             onMovieClick = {},
             onBackClick = {},
             onRefresh = {},
@@ -269,7 +266,7 @@ private fun MovieListScreenLoadingPreview() {
     }
 }
 
-@Preview(name = "Movie List Screen - Empty", showBackground = true)
+@Preview(name = PreviewConstants.PREVIEW_MOVIE_LIST_EMPTY, showBackground = true)
 @Composable
 private fun MovieListScreenEmptyPreview() {
     TechnicalTestAndroidTheme {
@@ -278,7 +275,7 @@ private fun MovieListScreenEmptyPreview() {
                 isLoading = false,
                 movies = emptyList()
             ),
-            genreName = "Action",
+            genreName = PreviewConstants.MOCK_GENRE_ACTION,
             onMovieClick = {},
             onBackClick = {},
             onRefresh = {},
