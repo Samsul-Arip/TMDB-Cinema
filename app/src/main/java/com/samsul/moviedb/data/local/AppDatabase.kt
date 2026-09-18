@@ -2,7 +2,6 @@ package com.samsul.moviedb.data.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import androidx.room.TypeConverters
 import com.samsul.moviedb.data.local.dao.GenreDao
 import com.samsul.moviedb.data.local.dao.MovieDao
 import com.samsul.moviedb.data.local.dao.MovieDetailDao
@@ -22,7 +21,6 @@ import com.samsul.moviedb.data.local.entity.ReviewEntity
     version = 2,
     exportSchema = false
 )
-@TypeConverters(Converters::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun genreDao(): GenreDao
     abstract fun movieDao(): MovieDao

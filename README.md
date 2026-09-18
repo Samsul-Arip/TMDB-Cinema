@@ -117,7 +117,6 @@ com.samsul.moviedb/
 ├── data/
 │   ├── local/
 │   │   ├── AppDatabase.kt      # Room Database konfigurasi entitas dan versi schema
-│   │   ├── Converters.kt       # TypeConverter Room (misal: konversi List<Int> genre IDs)
 │   │   ├── dao/                # Data Access Objects (MovieDao, GenreDao, MovieDetailDao, ReviewDao)
 │   │   └── entity/             # SQLite Room Entities (MovieEntity, GenreEntity, MovieDetailEntity, ReviewEntity)
 │   ├── mapper/
