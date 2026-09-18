@@ -8,7 +8,7 @@
 [![Clean Architecture](https://img.shields.io/badge/Architecture-Clean%20%2B%20MVVM-green.svg?style=for-the-badge)](https://developer.android.com/topic/architecture)
 [![Room](https://img.shields.io/badge/Database-Room%202.7.2-red.svg?style=for-the-badge&logo=sqlite)](https://developer.android.com/training/data-storage/room)
 [![Koin](https://img.shields.io/badge/DI-Koin%204.0.2-brightgreen.svg?style=for-the-badge)](https://insert-koin.io/)
-[![Android SDK](https://img.shields.io/badge/Target%20SDK-35-success.svg?style=for-the-badge&logo=android)](https://developer.android.com)
+[![Android SDK](https://img.shields.io/badge/Target%20SDK-37-success.svg?style=for-the-badge&logo=android)](https://developer.android.com)
 
 > **Aplikasi Android Modern untuk Eksplorasi Film TMDB dengan Desain Tema Gelap Sinematik, Dukungan Offline-First Caching, Server-Side Search, dan Pemutar Trailer YouTube.**
 
@@ -201,7 +201,7 @@ Aplikasi ini membutuhkan kunci akses API dari TMDB untuk melakukan *fetching* da
 - **Android Studio**: Ladybug | Koala | Meerkat atau versi lebih baru.
 - **Java Development Kit (JDK)**: Versi 17, 21, atau 25.
 - **Gradle**: Versi 9.7.1 (sudah disertakan melalui Gradle Wrapper `./gradlew`).
-- **Android SDK**: Compile SDK 35 (Android 15), Min SDK 24 (Android 7.0).
+- **Android SDK**: Compile SDK 37, Target SDK 37, Min SDK 24 (Android 7.0).
 - Koneksi internet aktif untuk sinkronisasi dependensi Gradle awal dan pengambilan data TMDB.
 
 ### Langkah-Langkah:
@@ -234,10 +234,16 @@ tmdb.image.base.url=https://image.tmdb.org/t/p/
 - Buka Android Studio, pilih **Open** dan arahkan ke folder proyek.
 - Tunggu proses Gradle Sync selesai hingga semua dependensi terunduh.
 
-#### 4. Menjalankan Unit Test
-Untuk memverifikasi keandalan logika bisnis use case dan pemetaan repository:
+#### 4. Menjalankan Pengujian (Testing)
+
+**Menjalankan Seluruh Unit Test (44 Tests):**
 ```bash
 ./gradlew testDebugUnitTest
+```
+
+**Menjalankan Seluruh Compose UI Instrumented Test (31 Tests):**
+```bash
+./gradlew connectedAndroidTest
 ```
 
 #### 5. Menjalankan Aplikasi
@@ -251,16 +257,36 @@ Untuk memverifikasi keandalan logika bisnis use case dan pemetaan repository:
 
 ## 🧪 Pengujian Kualitas (Testing & Quality)
 
-Proyek ini dilengkapi dengan unit test otomatis pada lapisan domain dan use case:
-- **`SearchMoviesUseCaseTest`**: Memverifikasi pencarian film query cocok, hasil pencarian kosong, dan penanganan kegagalan jaringan.
-- **`GetDiscoverMoviesUseCaseTest`**: Memverifikasi eksplorasi film, pagination, dan isolasi filter genre.
-- **`GetMovieDetailUseCaseTest`**: Memverifikasi ketersediaan dan integritas data detail film.
-- **`GetMovieGenresUseCaseTest`**: Memverifikasi pengambilan dan pemetaan daftar genre TMDB.
-- **`GetMovieReviewsUseCaseTest`**: Memverifikasi pengambilan ulasan pengguna dan pagination.
-- **`GetMovieTrailerUseCaseTest`**: Memverifikasi pemilahan dan prioritas trailer resmi YouTube.
-- **`GetPopularMoviesUseCaseTest`**: Memverifikasi pengambilan katalog film populer.
-- **`GetLatestMoviesUseCaseTest`**: Memverifikasi pengambilan rilis film terbaru.
-- **`FakeMovieRepository`**: Test double terisolasi untuk pengetesan cepat dan deterministik tanpa ketergantungan jaringan eksternal.
+Proyek ini menerapkan strategi pengujian yang seimbang dan komprehensif (**Total 75 Pengujian Otomatis**):
+
+### 1. Unit Tests (`app/src/test/` — 44 Tests Passed)
+- **Presentation Layer (19 tests)**:
+  - **`GenreViewModelTest`** (7 tests): Menguji inisialisasi awal data, pemilihan kategori genre, refresh, aktivasi/deaktivasi search bar, debounce pencarian 400ms, query kosong, dan mekanisme retry.
+  - **`AllGenresViewModelTest`** (4 tests): Menguji inisialisasi seluruh genre, refresh, filter lokal pencarian genre (`filteredGenres`), dan error handling.
+  - **`MovieListViewModelTest`** (4 tests): Menguji pemuatan film per genre, pagination halaman berikutnya, refresh dengan reset, dan error handling.
+  - **`MovieDetailViewModelTest`** (4 tests): Menguji pemuatan serentak detail film, trailer video, ulasan pengguna, pagination ulasan, dan refresh.
+- **Domain Layer (20 tests)**:
+  - **`GetDiscoverMoviesUseCaseTest`**: Eksplorasi film, pagination, dan isolasi filter genre.
+  - **`GetLatestMoviesUseCaseTest`**: Pengambilan rilis film terbaru.
+  - **`GetPopularMoviesUseCaseTest`**: Pengambilan katalog film populer.
+  - **`GetMovieDetailUseCaseTest`**: Ketersediaan dan integritas data detail film.
+  - **`GetMovieGenresUseCaseTest`**: Pengambilan dan pemetaan daftar genre TMDB.
+  - **`GetMovieReviewsUseCaseTest`**: Pengambilan ulasan pengguna dan pagination.
+  - **`GetMovieTrailerUseCaseTest`**: Pemilahan dan prioritas trailer resmi YouTube.
+  - **`SearchMoviesUseCaseTest`**: Pencarian film query cocok, hasil pencarian kosong, dan kegagalan jaringan.
+- **Data Layer (5 tests)**:
+  - **`MappersTest`**: Menguji pemetaan dua arah DTO ↔ Room Entity ↔ Domain Model untuk Genre, Movie, MovieDetail, Review, dan Trailer.
+- **Utilities**:
+  - **`FakeMovieRepository`**: Test double terisolasi untuk pengetesan cepat dan deterministik.
+  - **`MainDispatcherRule`**: Coroutine test rule untuk `Dispatchers.Main` dengan `UnconfinedTestDispatcher`.
+
+### 2. Instrumented Compose UI Tests (`app/src/androidTest/` — 31 Tests Passed)
+- **`MovieSplashScreenTest`** (2 tests): Memverifikasi rendering logo, judul brand (`Movie` + `DB`), tagline, atribusi TMDB, dan transisi navigasi otomatis.
+- **`GenreScreenTest`** (8 tests): Memverifikasi Top App Bar, chip kategori, interaksi pemilihan chip, toggle search bar & input teks, 2-kolom grid film, klik kartu film, tombol "View all ›", serta empty state dan error state dengan tombol retry.
+- **`AllGenresScreenTest`** (6 tests): Memverifikasi judul Top App Bar, kartu khusus "All Movies", daftar kartu kategori genre, filter pencarian genre, serta empty dan error state.
+- **`MovieListScreenTest`** (4 tests): Memverifikasi judul genre, tombol kembali, kartu poster film, klik kartu film, serta empty dan error state.
+- **`MovieDetailScreenTest`** (7 tests): Memverifikasi hero section (backdrop, overlapping poster, title, rating, runtime, status rilis), expand/collapse sinopsis ("Read more" / "Show less"), section trailer YouTube, fallback saat trailer tidak ada, daftar ulasan pengguna, fallback saat review kosong, serta error state dengan tombol retry.
+- **`AppNavigationTest`** (4 tests): Memverifikasi route constants, URL encoding argumen nama genre dengan spasi/simbol, dan transisi navigasi lengkap antar rute (`Splash` → `Genres` → `AllGenres` → `MovieList` → `MovieDetail` serta navigasi back).
 
 ---
 
