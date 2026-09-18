@@ -347,7 +347,7 @@ fun GenreContent(
                     }
                     uiState.errorMessage != null && uiState.movies.isEmpty() && uiState.searchQuery.isBlank() -> {
                         ErrorStateView(
-                            message = uiState.errorMessage ?: stringResource(R.string.error_network),
+                            message = uiState.errorMessage,
                             onRetry = onRetry,
                             modifier = Modifier.fillMaxSize()
                         )

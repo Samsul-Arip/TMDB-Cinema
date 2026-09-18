@@ -208,47 +208,6 @@ fun CategoryRowShimmer(modifier: Modifier = Modifier) {
     }
 }
 
-@Composable
-fun MovieRowShimmer(modifier: Modifier = Modifier) {
-    Row(
-        modifier = modifier
-            .fillMaxWidth()
-            .padding(horizontal = 16.dp),
-        horizontalArrangement = Arrangement.spacedBy(14.dp)
-    ) {
-        repeat(3) {
-            Column(
-                modifier = Modifier
-                    .width(160.dp)
-                    .height(246.dp)
-                    .clip(RoundedCornerShape(16.dp))
-                    .background(CinemaSurface)
-                    .padding(8.dp)
-            ) {
-                ShimmerBox(
-                    modifier = Modifier
-                        .fillMaxWidth()
-                        .height(155.dp),
-                    shape = RoundedCornerShape(12.dp)
-                )
-                Spacer(modifier = Modifier.height(8.dp))
-                ShimmerBox(
-                    modifier = Modifier
-                        .fillMaxWidth(0.85f)
-                        .height(14.dp),
-                    shape = RoundedCornerShape(4.dp)
-                )
-                Spacer(modifier = Modifier.height(6.dp))
-                ShimmerBox(
-                    modifier = Modifier
-                        .fillMaxWidth(0.5f)
-                        .height(10.dp),
-                    shape = RoundedCornerShape(4.dp)
-                )
-            }
-        }
-    }
-}
 
 @Preview(name = PreviewConstants.PREVIEW_CATEGORY_ROW_SHIMMER, showBackground = true)
 @Composable

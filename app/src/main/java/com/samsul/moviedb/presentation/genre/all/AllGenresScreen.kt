@@ -227,7 +227,7 @@ fun AllGenresContent(
 
                     uiState.errorMessage != null && uiState.genres.isEmpty() -> {
                         ErrorStateView(
-                            message = uiState.errorMessage ?: stringResource(R.string.error_network),
+                            message = uiState.errorMessage,
                             onRetry = onRetry,
                             modifier = Modifier.fillMaxSize()
                         )

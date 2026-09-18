@@ -211,14 +211,14 @@ fun MovieDetailContent(
 
                 uiState.detailError != null && uiState.movieDetail == null -> {
                     ErrorStateView(
-                        message = uiState.detailError ?: stringResource(R.string.error_network),
+                        message = uiState.detailError,
                         onRetry = onRetry,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
 
                 uiState.movieDetail != null -> {
-                    val detail = uiState.movieDetail!!
+                    val detail = uiState.movieDetail
 
                     LazyColumn(
                         state = listState,

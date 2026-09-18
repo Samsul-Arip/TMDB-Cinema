@@ -160,7 +160,7 @@ fun MovieListContent(
 
                 uiState.errorMessage != null && uiState.movies.isEmpty() -> {
                     ErrorStateView(
-                        message = uiState.errorMessage ?: stringResource(R.string.error_network),
+                        message = uiState.errorMessage,
                         onRetry = onRetry
                     )
                 }

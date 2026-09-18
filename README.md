@@ -2,12 +2,14 @@
 
 # 🎬 TMDB Cinema — Android Movie App
 
-[![Kotlin](https://img.shields.io/badge/Kotlin-2.0.21-purple.svg?style=for-the-badge&logo=kotlin)](https://kotlinlang.org)
-[![Compose](https://img.shields.io/badge/Jetpack%20Compose-1.7.5-blue.svg?style=for-the-badge&logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
-[![Material3](https://img.shields.io/badge/Material%203-Dark%20Theme-orange.svg?style=for-the-badge&logo=materialdesign)](https://m3.material.io/)
+[![Kotlin](https://img.shields.io/badge/Kotlin-2.2.10-purple.svg?style=for-the-badge&logo=kotlin)](https://kotlinlang.org)
+[![Gradle](https://img.shields.io/badge/Gradle-9.7.1-02303A.svg?style=for-the-badge&logo=gradle)](https://gradle.org)
+[![AGP](https://img.shields.io/badge/AGP-9.3.2-brightgreen.svg?style=for-the-badge&logo=android)](https://developer.android.com/build)
+[![Compose BOM](https://img.shields.io/badge/Compose%20BOM-2026.02.01-blue.svg?style=for-the-badge&logo=jetpackcompose)](https://developer.android.com/jetpack/compose)
+[![Material3](https://img.shields.io/badge/Material%203-MovieAndroidTheme-orange.svg?style=for-the-badge&logo=materialdesign)](https://m3.material.io/)
 [![Clean Architecture](https://img.shields.io/badge/Architecture-Clean%20%2B%20MVVM-green.svg?style=for-the-badge)](https://developer.android.com/topic/architecture)
-[![Room](https://img.shields.io/badge/Database-Room%202.7-red.svg?style=for-the-badge&logo=sqlite)](https://developer.android.com/training/data-storage/room)
-[![Koin](https://img.shields.io/badge/DI-Koin%204.0-brightgreen.svg?style=for-the-badge)](https://insert-koin.io/)
+[![Room](https://img.shields.io/badge/Database-Room%202.7.2-red.svg?style=for-the-badge&logo=sqlite)](https://developer.android.com/training/data-storage/room)
+[![Koin](https://img.shields.io/badge/DI-Koin%204.0.2-brightgreen.svg?style=for-the-badge)](https://insert-koin.io/)
 [![Android SDK](https://img.shields.io/badge/Target%20SDK-35-success.svg?style=for-the-badge&logo=android)](https://developer.android.com)
 
 <p align="center">
@@ -68,7 +70,7 @@ Sebagai gambaran visual dari antarmuka modern yang telah dibangun, berikut adala
 4. **Pencarian Film Server-Side (TMDB API Search)**: Kolom pencarian responsif langsung terhubung dengan endpoint `GET /search/movie` TMDB yang dilengkapi dengan **Debounce 400ms** untuk efisiensi panggilan jaringan.
 5. **Pemutar Cuplikan Resmi (YouTube Trailer Integration)**: Tonton cuplikan resmi film langsung di dalam aplikasi melalui WebPlayer terintegrasi atau buka secara otomatis di aplikasi YouTube bawaan.
 6. **Ulasan Pengguna (User Reviews)**: Menampilkan review pengguna dengan fitur ekspansi teks ulasan (*Read More / Show Less*) dan pagination.
-7. **Pull-to-Refresh**: Perbarui data film dan genre kapan saja dengan efek animasi tarikan bertema sinematik.
+7. **Pull-to-Refresh Sinematik**: Perbarui data film dan genre kapan saja dengan efek tarikan bersih dan modern tanpa artefak visual statis.
 8. **Fixed System Font Scale (Konsistensi Layout)**: Skala font aplikasi dikunci pada rasio standar (`fontScale = 1.0f`) di tingkat Jetpack Compose dan Android Context, sehingga tata letak UI tetap presisi dan tidak rusak meskipun pengguna mengatur ukuran font di perangkat HP menjadi sangat besar (*Extra Large*).
 
 ---
@@ -77,8 +79,10 @@ Sebagai gambaran visual dari antarmuka modern yang telah dibangun, berikut adala
 
 Aplikasi ini dirancang dengan prinsip modularitas, skalabilitas, dan kemudahan pengujian (*testability*) yang tinggi.
 
-### 1. Bahasa Pemrograman
-- **[Kotlin](https://kotlinlang.org/) (v2.0.21)**: Bahasa pemrograman resmi utama Android dengan dukungan fitur modern seperti Kotlin Coroutines, Kotlin Flow, dan Sealed Interfaces.
+### 1. Bahasa & Tooling Inti
+- **[Kotlin](https://kotlinlang.org/) (v2.2.10)**: Bahasa pemrograman resmi utama Android dengan dukungan fitur modern seperti Kotlin Coroutines, Kotlin Flow, dan Sealed Interfaces.
+- **[Gradle](https://gradle.org/) (v9.7.1)**: Build system modern dengan verifikasi checksum SHA-256 dan dukungan JDK 17 / 21 / 25.
+- **Android Gradle Plugin (AGP v9.3.2)**: Toolchain resmi Google untuk kompilasi Android mutakhir.
 
 ### 2. Pola Desain & Arsitektur (Design Pattern & Architecture)
 Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Model-View-ViewModel)** serta prinsip **UDF (Unidirectional Data Flow)**:
@@ -87,6 +91,7 @@ Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Mo
 ┌───────────────────────────────────────────────────────────┐
 │                 PRESENTATION LAYER (UI)                   │
 │   Jetpack Compose Screens, Reusable Components, M3 Theme  │
+│        MovieAndroidTheme (Fixed FontScale, Amber Glow)    │
 │              GenreViewModel, MovieDetailViewModel         │
 └─────────────────────────────▲─────────────────────────────┘
                               │
@@ -109,24 +114,25 @@ Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Mo
 └───────────────────────────────────────────────────────────┘
 ```
 
-- **Presentation Layer**: Menangani rendering antarmuka pengguna secara deklaratif dengan Jetpack Compose, mengelola state layar melalui `StateFlow`, dan menangani interaksi pengguna.
+- **Presentation Layer**: Menangani rendering antarmuka pengguna secara deklaratif dengan Jetpack Compose, mengelola state layar melalui `StateFlow`, dan menangani interaksi pengguna dengan tema terpadu `MovieAndroidTheme`.
 - **Domain Layer**: Lapisan murni (*Pure Kotlin*) tanpa dependensi framework Android. Berisi kontrak antarmuka repositori, entitas domain model, dan Use Case independen yang dapat diuji secara terisolasi.
 - **Data Layer**: Bertanggung jawab atas persistensi data lokal (Room DB) dan komunikasi jaringan (Retrofit). Mengatur strategi *Single Source of Truth* dan pemetaan data (Data Mappers).
 
 ### 3. Perpustakaan & Alat Bantu (Libraries & Tools)
-| Kategori | Teknologi / Library | Kegunaan |
-| :--- | :--- | :--- |
-| **UI Toolkit** | Jetpack Compose & Material 3 | Desain antarmuka modern deklaratif bertema sinematik gelap |
-| **Splash Screen** | [Core SplashScreen](https://developer.android.com/develop/ui/views/launch/splash-screen) (v1.0.1) | Transisi startup halus & integrasi sistem Android 12+ SplashScreen API |
-| **Dependency Injection** | [Koin](https://insert-koin.io/) (v4.0.2) | DI ringan berbasis Kotlin DSL murni untuk injeksi UseCase, ViewModel, dan Repository |
-| **Local Database** | [Room Database](https://developer.android.com/training/data-storage/room) (v2.7.2) | Penyimpanan cache offline lokal untuk film, genre, dan detail |
-| **Networking** | [Retrofit 2](https://square.github.io/retrofit/) & [OkHttp 3](https://square.github.io/okhttp/) | REST API client dengan Logging Interceptor dan Authentication Interceptor |
-| **Asynchronous** | Kotlin Coroutines & Flow | Pemrograman asinkron reaktif non-blocking |
-| **Image Loading** | [Coil](https://coil-kt.github.io/coil/) (v2.7.0) | Pemuatan dan *caching* poster & backdrop film dari TMDB |
-| **Navigation** | Jetpack Navigation Compose | Navigasi halaman antar layar berbasis rute Compose |
-| **Media Player** | Android YouTube Player (v13.0.0) | Pemutaran video cuplikan resmi YouTube terintegrasi |
-| **Testing** | JUnit 4 & Coroutines Test | Pengujian unit test logika domain dan repositori |
-| **Build System** | Gradle Kotlin DSL (`build.gradle.kts`) | Konfigurasi otomatis dependensi proyek |
+| Kategori | Teknologi / Library | Versi | Kegunaan |
+| :--- | :--- | :--- | :--- |
+| **UI Toolkit** | Jetpack Compose | BOM 2026.02.01 | Desain antarmuka modern deklaratif bertema sinematik |
+| **Design System** | Material 3 & MovieAndroidTheme | M3 | Tema sinematik gelap, tipografi kustom, dan font scale terkontrol |
+| **Splash Screen** | Core SplashScreen | v1.0.1 | Transisi startup halus & integrasi sistem Android 12+ SplashScreen API |
+| **Dependency Injection** | Koin | v4.0.2 | DI ringan berbasis Kotlin DSL murni untuk injeksi UseCase, ViewModel, dan Repository |
+| **Local Database** | Room Database & Room KTX | v2.7.2 | Penyimpanan cache offline lokal untuk film, genre, ulasan, dan detail (KSP compiler) |
+| **Networking** | Retrofit 2 & OkHttp 3 | v2.11.0 / v4.12.0 | REST API client dengan Logging Interceptor dan Auth Interceptor TMDB |
+| **Asynchronous** | Kotlin Coroutines & Flow | v2.2.10 | Pemrograman asinkron reaktif non-blocking |
+| **Image Loading** | Coil Compose | v2.7.0 | Pemuatan dan *caching* poster & backdrop film dari TMDB |
+| **Navigation** | Jetpack Navigation Compose | v2.8.8 | Navigasi halaman antar layar berbasis rute Compose type-safe |
+| **Media Player** | Android YouTube Player | v13.0.0 | Pemutaran video cuplikan resmi YouTube terintegrasi |
+| **Testing** | JUnit 4 & Coroutines Test | v4.13.2 / v1.8.1 | Pengujian unit test logika domain dan repositori |
+| **Build System** | Gradle & AGP | v9.7.1 / v9.3.2 | Konfigurasi otomatis dependensi proyek berbasis Kotlin DSL |
 
 ---
 
@@ -134,31 +140,68 @@ Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Mo
 
 ```
 com.samsul.moviedb/
+├── MainActivity.kt             # Single-Activity entry point, Core SplashScreen setup, Edge-to-Edge
+├── MainApplication.kt          # Application class, Koin dependency injection initialization
 ├── core/
-│   ├── network/                # AuthInterceptor, NetworkMonitor
-│   └── util/                   # Constants (Keys, Errors, Endpoints), Resource wrapper (Success, Error, Loading)
+│   ├── network/
+│   │   ├── AuthInterceptor.kt  # Otentikasi otomatis penyisipan API Key & Header TMDB
+│   │   └── NetworkMonitor.kt   # Pemantau status koneksi internet perangkat secara reaktif
+│   └── util/
+│       ├── Constants.kt        # Konstanta konfigurasi TMDB, URL gambar, pesan error, dan rute
+│       └── Resource.kt         # Wrapper sealed class (Success, Error, Loading) untuk aliran data
 ├── data/
-│   ├── local/                  # AppDatabase, DAOs (Movie, Genre, Detail, Review), Entities, Converters
-│   ├── mapper/                 # Entity & DTO to Domain Model mappers
-│   ├── remote/                 # TmdbApiService, DTOs (Data Transfer Objects)
-│   └── repository/             # MovieRepositoryImpl (Strategi Offline-First Room & Network Fetch)
+│   ├── local/
+│   │   ├── AppDatabase.kt      # Room Database konfigurasi entitas dan versi schema
+│   │   ├── Converters.kt       # TypeConverter Room (misal: konversi List<Int> genre IDs)
+│   │   ├── dao/                # Data Access Objects (MovieDao, GenreDao, MovieDetailDao, ReviewDao)
+│   │   └── entity/             # SQLite Room Entities (MovieEntity, GenreEntity, MovieDetailEntity, ReviewEntity)
+│   ├── mapper/
+│   │   └── MovieMapper.kt      # Fungsi ekstensi pemetaan DTO/Entity ke Domain Model
+│   ├── remote/
+│   │   ├── TmdbApiService.kt   # Retrofit Interface untuk endpoint TMDB API
+│   │   └── dto/                # Data Transfer Objects (MovieDto, GenreDto, MovieDetailDto, ReviewDto, VideoDto)
+│   └── repository/
+│       └── MovieRepositoryImpl.kt # Implementasi repositori dengan strategi Offline-First Caching
 ├── di/
-│   └── AppModule.kt            # Koin Modules (Network, Database, Repository, UseCase, ViewModel)
+│   └── AppModule.kt            # Definisi modul-modul Koin (Network, Database, Repository, UseCase, ViewModel)
 ├── domain/
-│   ├── model/                  # Pure Domain Models (Movie, Genre, MovieDetail, Review, Trailer)
+│   ├── model/                  # Pure Kotlin Domain Models (Movie, Genre, MovieDetail, Review, Trailer)
 │   ├── repository/             # Kontrak interface MovieRepository
-│   └── usecase/                # Single-responsibility business logic (Search, Discover, Detail, dll)
+│   └── usecase/                # Single-responsibility business logic:
+│       ├── GetDiscoverMoviesUseCase.kt  # Eksplorasi film dengan pagination dan filter genre
+│       ├── GetLatestMoviesUseCase.kt    # Mengambil rilis film terkini
+│       ├── GetMovieDetailUseCase.kt     # Mengambil informasi mendalam film
+│       ├── GetMovieGenresUseCase.kt     # Mengambil daftar kategori genre TMDB
+│       ├── GetMovieReviewsUseCase.kt    # Mengambil ulasan pengguna dengan pagination
+│       ├── GetMovieTrailerUseCase.kt    # Mengambil cuplikan video resmi YouTube
+│       ├── GetPopularMoviesUseCase.kt   # Mengambil katalog film terpopuler
+│       └── SearchMoviesUseCase.kt       # Pencarian film TMDB server-side dengan debounce
 ├── presentation/
-│   ├── detail/                 # MovieDetailScreen, ViewModel, UIState
-│   ├── genre/                  # GenreScreen (Home), ViewModel, UIState, AllGenresScreen
-│   ├── movielist/              # MovieListScreen per genre, ViewModel, UIState
-│   ├── navigation/             # AppNavGraph, Screen routes (Splash, Genres, AllGenres, MovieList, MovieDetail)
-│   └── splash/                 # MovieSplashScreen (Scale & Alpha Animations, Ambient Glow, Loader Dots)
+│   ├── detail/                 # Layar MovieDetailScreen, MovieDetailViewModel, MovieDetailUiState
+│   ├── genre/                  # Layar GenreScreen (Home/Discover), GenreViewModel, GenreUiState
+│   │   └── all/                # Layar AllGenresScreen, AllGenresViewModel, AllGenresUiState
+│   ├── movielist/              # Layar MovieListScreen (Daftar film per genre), ViewModel, UiState
+│   ├── navigation/
+│   │   ├── NavGraph.kt         # Pengaturan NavHost dan rute antar layar
+│   │   └── Screen.kt           # Sealed class rute navigasi dan pembuat URI argumen
+│   └── splash/
+│       └── MovieSplashScreen.kt # Intro sinematik, Brand Logo, Ambient Glow, Loader Dots
 └── ui/
-    ├── components/             # Reusable UI Components (CinemaMovieCard, MoviePosterCard, YouTubePlayerView,
-    │                           #   LoadingShimmer, EmptyStateView, ErrorStateView, OfflineBadge, CinemaPullToRefresh)
-    ├── preview/                # PreviewConstants (Compile-time preview names & mock values) & PreviewData (Mock models)
-    └── theme/                  # Cinema Color Palette, Dark Theme (Locked FontScale), Typography
+    ├── components/             # Reusable UI Components:
+    │   ├── CinemaMovieCard.kt     # Card film grid dengan rating bintang dan tombol Play Trailer
+    │   ├── CinemaPullToRefresh.kt # Pull-to-refresh sinematik tanpa artefak visual
+    │   ├── EmptyStateView.kt      # Tampilan status kosong dengan tombol refresh
+    │   ├── ErrorStateView.kt      # Tampilan status error jaringan dengan tombol coba lagi
+    │   ├── LoadingShimmer.kt      # Animasi skeleton shimmer (CategoryRow, MovieGrid, GenreList)
+    │   ├── MoviePosterCard.kt     # Card poster film vertikal
+    │   ├── OfflineBadge.kt        # Indikator badge data bersumber dari cache offline
+    │   └── YouTubePlayerView.kt   # Integrasi pemutar video YouTube WebView responsif
+    ├── preview/
+    │   └── PreviewData.kt         # Mock data & PreviewConstants lengkap untuk @Preview Compose
+    └── theme/
+        ├── Color.kt               # Palet warna sinematik (CinemaAmber, CinemaGold, Dark Backgrounds)
+        ├── Theme.kt               # MovieAndroidTheme dengan penguncian skala font (fontScale = 1.0f)
+        └── Type.kt                # Konfigurasi tipografi Material 3
 ```
 
 ---
@@ -191,10 +234,11 @@ Aplikasi ini membutuhkan kunci akses API dari TMDB untuk melakukan *fetching* da
 ## 🚀 Panduan Instalasi & Menjalankan Aplikasi (Setup & Run)
 
 ### Prasyarat Sistem (Prerequisites):
-- **Android Studio**: Ladybug | Koala | Iguana atau versi lebih baru.
-- **Java Development Kit (JDK)**: Versi 17 atau 21.
+- **Android Studio**: Ladybug | Koala | Meerkat atau versi lebih baru.
+- **Java Development Kit (JDK)**: Versi 17, 21, atau 25.
+- **Gradle**: Versi 9.7.1 (sudah disertakan melalui Gradle Wrapper `./gradlew`).
 - **Android SDK**: Compile SDK 35 (Android 15), Min SDK 24 (Android 7.0).
-- Koneksi internet aktif untuk sinkronisasi dependensi Gradle awal dan pengujian API.
+- Koneksi internet aktif untuk sinkronisasi dependensi Gradle awal dan pengambilan data TMDB.
 
 ### Langkah-Langkah:
 
@@ -220,13 +264,13 @@ tmdb.base.url=https://api.themoviedb.org/3/
 tmdb.image.base.url=https://image.tmdb.org/t/p/
 ```
 
-> ⚠️ **Catatan Penting**: Nilai dari `tmdb.api.key`, `tmdb.base.url`, dan `tmdb.image.base.url` akan dibaca oleh Gradle dan dikompilasi secara aman ke dalam `BuildConfig` aplikasi (`BuildConfig.TMDB_API_KEY`).
+> ⚠️ **Catatan Keamanan**: Nilai dari `tmdb.api.key`, `tmdb.base.url`, dan `tmdb.image.base.url` dikelola secara terisolasi di `local.properties` (yang diabaikan oleh `.gitignore`) dan diinjeksi secara aman ke dalam `BuildConfig` saat kompilasi (`BuildConfig.TMDB_API_KEY`).
 
 #### 3. Buka di Android Studio & Sinkronkan Gradle
 - Buka Android Studio, pilih **Open** dan arahkan ke folder proyek.
 - Tunggu proses Gradle Sync selesai hingga semua dependensi terunduh.
 
-#### 4. Menjalankan Unit Test (Opsional)
+#### 4. Menjalankan Unit Test
 Untuk memverifikasi keandalan logika bisnis use case dan pemetaan repository:
 ```bash
 ./gradlew testDebugUnitTest
@@ -244,12 +288,15 @@ Untuk memverifikasi keandalan logika bisnis use case dan pemetaan repository:
 ## 🧪 Pengujian Kualitas (Testing & Quality)
 
 Proyek ini dilengkapi dengan unit test otomatis pada lapisan domain dan use case:
-- `SearchMoviesUseCaseTest`: Memverifikasi pencarian film query cocok, hasil kosong, dan penanganan kegagalan jaringan.
-- `GetDiscoverMoviesUseCaseTest`: Memverifikasi pagination dan filter genre.
-- `GetMovieDetailUseCaseTest`: Memverifikasi ketersediaan data detail film.
-- `GetMovieReviewsUseCaseTest`: Memverifikasi pengambilan ulasan pengguna.
-- `GetMovieTrailerUseCaseTest`: Memverifikasi prioritas trailer YouTube resmi.
-- `FakeMovieRepository`: Test double untuk isolasi pengetesan tanpa bergantung pada jaringan asli.
+- **`SearchMoviesUseCaseTest`**: Memverifikasi pencarian film query cocok, hasil pencarian kosong, dan penanganan kegagalan jaringan.
+- **`GetDiscoverMoviesUseCaseTest`**: Memverifikasi eksplorasi film, pagination, dan isolasi filter genre.
+- **`GetMovieDetailUseCaseTest`**: Memverifikasi ketersediaan dan integritas data detail film.
+- **`GetMovieGenresUseCaseTest`**: Memverifikasi pengambilan dan pemetaan daftar genre TMDB.
+- **`GetMovieReviewsUseCaseTest`**: Memverifikasi pengambilan ulasan pengguna dan pagination.
+- **`GetMovieTrailerUseCaseTest`**: Memverifikasi pemilahan dan prioritas trailer resmi YouTube.
+- **`GetPopularMoviesUseCaseTest`**: Memverifikasi pengambilan katalog film populer.
+- **`GetLatestMoviesUseCaseTest`**: Memverifikasi pengambilan rilis film terbaru.
+- **`FakeMovieRepository`**: Test double terisolasi untuk pengetesan cepat dan deterministik tanpa ketergantungan jaringan eksternal.
 
 ---
 
