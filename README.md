@@ -1,5 +1,3 @@
-<div align="center">
-
 # 🎬 TMDB Cinema — Android Movie App
 
 [![Kotlin](https://img.shields.io/badge/Kotlin-2.2.10-purple.svg?style=for-the-badge&logo=kotlin)](https://kotlinlang.org)
@@ -12,11 +10,7 @@
 [![Koin](https://img.shields.io/badge/DI-Koin%204.0.2-brightgreen.svg?style=for-the-badge)](https://insert-koin.io/)
 [![Android SDK](https://img.shields.io/badge/Target%20SDK-35-success.svg?style=for-the-badge&logo=android)](https://developer.android.com)
 
-<p align="center">
-  <b>Aplikasi Android Modern untuk Eksplorasi Film TMDB dengan Desain Tema Gelap Sinematik, Dukungan Offline-First Caching, Server-Side Search, dan Pemutar Trailer YouTube.</b>
-</p>
-
-</div>
+> **Aplikasi Android Modern untuk Eksplorasi Film TMDB dengan Desain Tema Gelap Sinematik, Dukungan Offline-First Caching, Server-Side Search, dan Pemutar Trailer YouTube.**
 
 ---
 
@@ -24,38 +18,9 @@
 
 Sebagai gambaran visual dari antarmuka modern yang telah dibangun, berikut adalah tangkapan layar utama aplikasi:
 
-<div align="center">
-  <table>
-    <tr>
-      <th align="center">🚀 Splash Screen</th>
-      <th align="center">🏠 Home / Discover</th>
-      <th align="center">📂 Kategori Genre</th>
-      <th align="center">🎬 Detail & Trailer</th>
-    </tr>
-    <tr>
-      <td align="center">
-        <img src="docs/screenshots/splash_screen.png" width="220" alt="Splash Screen"/>
-        <br/>
-        <sub><b>Animasi Logo, Glow, & TMDB Attribution</b></sub>
-      </td>
-      <td align="center">
-        <img src="docs/screenshots/home_screen.png" width="220" alt="Home Screen"/>
-        <br/>
-        <sub><b>Grid Film, Chip Genre, & Infinite Scroll</b></sub>
-      </td>
-      <td align="center">
-        <img src="docs/screenshots/genres_screen.png" width="220" alt="Genres Screen"/>
-        <br/>
-        <sub><b>Navigasi Seluruh Kategori Genre TMDB</b></sub>
-      </td>
-      <td align="center">
-        <img src="docs/screenshots/detail_screen.png" width="220" alt="Detail Screen"/>
-        <br/>
-        <sub><b>Detail Lengkap, YouTube Player, & Reviews</b></sub>
-      </td>
-    </tr>
-  </table>
-</div>
+| 🚀 Splash Screen | 🏠 Home / Discover | 📂 Kategori Genre | 🎬 Detail & Trailer |
+| :---: | :---: | :---: | :---: |
+| ![Splash Screen](docs/screenshots/splash_screen.png)<br/>**Animasi Logo, Glow, & TMDB Attribution** | ![Home Screen](docs/screenshots/home_screen.png)<br/>**Grid Film, Chip Genre, & Infinite Scroll** | ![Genres Screen](docs/screenshots/genres_screen.png)<br/>**Navigasi Seluruh Kategori Genre TMDB** | ![Detail Screen](docs/screenshots/detail_screen.png)<br/>**Detail Lengkap, YouTube Player, & Reviews** |
 
 ---
 
