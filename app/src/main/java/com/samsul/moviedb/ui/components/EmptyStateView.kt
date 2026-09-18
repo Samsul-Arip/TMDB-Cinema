@@ -28,7 +28,7 @@ import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextTertiary
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
 @Composable
 fun EmptyStateView(
@@ -85,7 +85,7 @@ fun EmptyStateView(
 @Preview(name = PreviewConstants.PREVIEW_EMPTY_STATE, showBackground = true)
 @Composable
 private fun EmptyStateViewPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         EmptyStateView(
             message = stringResource(R.string.empty_movies),
             onRetry = {}

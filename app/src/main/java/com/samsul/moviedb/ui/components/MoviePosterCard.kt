@@ -39,15 +39,15 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.samsul.moviedb.R
 import com.samsul.moviedb.domain.model.Movie
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaBackground
 import com.samsul.moviedb.ui.theme.CinemaCardBorder
 import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaSurface
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
-import com.samsul.moviedb.ui.preview.PreviewConstants
-import com.samsul.moviedb.ui.preview.PreviewData
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
 @Composable
 fun MoviePosterCard(
@@ -172,7 +172,7 @@ fun MoviePosterCard(
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_POSTER_CARD, showBackground = true)
 @Composable
 private fun MoviePosterCardPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         Box(modifier = Modifier.padding(16.dp).width(160.dp)) {
             MoviePosterCard(
                 movie = PreviewData.movies[1],

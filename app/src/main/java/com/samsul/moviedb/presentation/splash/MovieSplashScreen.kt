@@ -46,7 +46,7 @@ import androidx.compose.ui.unit.sp
 import com.samsul.moviedb.R
 import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 import kotlin.time.Duration.Companion.milliseconds
@@ -276,7 +276,7 @@ fun MovieSplashScreen(
 @Preview(name = PreviewConstants.PREVIEW_SPLASH_SCREEN, showBackground = true)
 @Composable
 private fun MovieSplashScreenPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieSplashScreen(onSplashFinished = {})
     }
 }

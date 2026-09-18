@@ -22,14 +22,14 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.samsul.moviedb.ui.preview.PreviewConstants
 import androidx.compose.ui.unit.dp
 import com.samsul.moviedb.R
+import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.theme.CinemaError
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
 @Composable
 fun ErrorStateView(
@@ -94,7 +94,7 @@ fun ErrorStateView(
 @Preview(name = PreviewConstants.PREVIEW_ERROR_STATE, showBackground = true)
 @Composable
 private fun ErrorStateViewPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         ErrorStateView(
             message = stringResource(R.string.error_network),
             onRetry = {}

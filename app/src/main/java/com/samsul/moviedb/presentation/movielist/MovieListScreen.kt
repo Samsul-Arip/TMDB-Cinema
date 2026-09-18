@@ -8,7 +8,6 @@ import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
@@ -38,6 +37,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samsul.moviedb.R
@@ -47,15 +47,13 @@ import com.samsul.moviedb.ui.components.ErrorStateView
 import com.samsul.moviedb.ui.components.MovieGridShimmer
 import com.samsul.moviedb.ui.components.MoviePosterCard
 import com.samsul.moviedb.ui.components.OfflineBadge
-import androidx.compose.ui.tooling.preview.Preview
-import com.samsul.moviedb.domain.model.Movie
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaBackground
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
-import com.samsul.moviedb.ui.preview.PreviewConstants
-import com.samsul.moviedb.ui.preview.PreviewData
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -231,7 +229,7 @@ fun MovieListContent(
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_LIST_SUCCESS, showBackground = true)
 @Composable
 private fun MovieListScreenSuccessPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieListContent(
             uiState = MovieListUiState(
                 isLoading = false,
@@ -250,7 +248,7 @@ private fun MovieListScreenSuccessPreview() {
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_LIST_LOADING, showBackground = true)
 @Composable
 private fun MovieListScreenLoadingPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieListContent(
             uiState = MovieListUiState(
                 isLoading = true,
@@ -269,7 +267,7 @@ private fun MovieListScreenLoadingPreview() {
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_LIST_EMPTY, showBackground = true)
 @Composable
 private fun MovieListScreenEmptyPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieListContent(
             uiState = MovieListUiState(
                 isLoading = false,

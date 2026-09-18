@@ -59,27 +59,25 @@ import androidx.compose.ui.text.SpanStyle
 import androidx.compose.ui.text.buildAnnotatedString
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.withStyle
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samsul.moviedb.R
-import com.samsul.moviedb.ui.components.CinemaPullToRefreshBox
 import com.samsul.moviedb.ui.components.CategoryRowShimmer
 import com.samsul.moviedb.ui.components.CinemaMovieCard
+import com.samsul.moviedb.ui.components.CinemaPullToRefreshBox
 import com.samsul.moviedb.ui.components.EmptyStateView
 import com.samsul.moviedb.ui.components.ErrorStateView
 import com.samsul.moviedb.ui.components.MovieGridShimmer
 import com.samsul.moviedb.ui.components.OfflineBadge
-import androidx.compose.ui.tooling.preview.Preview
-import com.samsul.moviedb.domain.model.Genre
-import com.samsul.moviedb.domain.model.Movie
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
-import com.samsul.moviedb.ui.preview.PreviewConstants
-import com.samsul.moviedb.ui.preview.PreviewData
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -510,7 +508,7 @@ fun SvgCategoryChip(
 @Preview(name = PreviewConstants.PREVIEW_GENRE_SUCCESS, showBackground = true)
 @Composable
 private fun GenreScreenSuccessPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         GenreContent(
             uiState = GenreUiState(
                 isLoadingGenres = false,
@@ -534,7 +532,7 @@ private fun GenreScreenSuccessPreview() {
 @Preview(name = PreviewConstants.PREVIEW_GENRE_LOADING, showBackground = true)
 @Composable
 private fun GenreScreenLoadingPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         GenreContent(
             uiState = GenreUiState(
                 isLoadingGenres = true,
@@ -555,7 +553,7 @@ private fun GenreScreenLoadingPreview() {
 @Preview(name = PreviewConstants.PREVIEW_GENRE_SEARCH_ACTIVE, showBackground = true)
 @Composable
 private fun GenreScreenSearchPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         GenreContent(
             uiState = GenreUiState(
                 isSearchActive = true,
@@ -577,7 +575,7 @@ private fun GenreScreenSearchPreview() {
 @Preview(name = PreviewConstants.PREVIEW_GENRE_EMPTY, showBackground = true)
 @Composable
 private fun GenreScreenEmptyPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         GenreContent(
             uiState = GenreUiState(
                 isLoadingGenres = false,
@@ -599,7 +597,7 @@ private fun GenreScreenEmptyPreview() {
 @Preview(name = PreviewConstants.PREVIEW_CATEGORY_CHIP, showBackground = true)
 @Composable
 private fun SvgCategoryChipPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         Row(
             modifier = Modifier.padding(16.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp)

@@ -29,11 +29,11 @@ import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.tooling.preview.Preview
-import com.samsul.moviedb.ui.preview.PreviewConstants
 import androidx.compose.ui.unit.dp
+import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.theme.CinemaSurface
 import com.samsul.moviedb.ui.theme.CinemaSurfaceVariant
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
 @Composable
 fun shimmerBrush(
@@ -253,7 +253,7 @@ fun MovieRowShimmer(modifier: Modifier = Modifier) {
 @Preview(name = PreviewConstants.PREVIEW_CATEGORY_ROW_SHIMMER, showBackground = true)
 @Composable
 private fun CategoryRowShimmerPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         CategoryRowShimmer()
     }
 }
@@ -261,7 +261,7 @@ private fun CategoryRowShimmerPreview() {
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_GRID_SHIMMER, showBackground = true)
 @Composable
 private fun MovieGridShimmerPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieGridShimmer()
     }
 }
@@ -269,7 +269,7 @@ private fun MovieGridShimmerPreview() {
 @Preview(name = PreviewConstants.PREVIEW_GENRE_LIST_SHIMMER, showBackground = true)
 @Composable
 private fun GenreListShimmerPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         GenreListShimmer()
     }
 }

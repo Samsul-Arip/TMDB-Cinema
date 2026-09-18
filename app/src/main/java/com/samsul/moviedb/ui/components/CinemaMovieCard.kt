@@ -45,7 +45,7 @@ import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaSurfaceVariant
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
 @Composable
 fun CinemaMovieCard(
@@ -176,7 +176,7 @@ fun CinemaMovieCard(
 @Preview(name = PreviewConstants.PREVIEW_CINEMA_MOVIE_CARD, showBackground = true)
 @Composable
 private fun CinemaMovieCardPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         Box(modifier = Modifier.padding(16.dp).width(180.dp)) {
             CinemaMovieCard(
                 movie = PreviewData.movies.first(),

@@ -1,8 +1,5 @@
 package com.samsul.moviedb.presentation.genre.all
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -30,7 +27,6 @@ import androidx.compose.material.icons.automirrored.rounded.ArrowBack
 import androidx.compose.material.icons.rounded.Close
 import androidx.compose.material.icons.rounded.PlayArrow
 import androidx.compose.material.icons.rounded.Search
-import androidx.compose.material.icons.rounded.Theaters
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.ExperimentalMaterial3Api
@@ -57,24 +53,24 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samsul.moviedb.R
+import com.samsul.moviedb.domain.model.Genre
 import com.samsul.moviedb.ui.components.CinemaPullToRefreshBox
 import com.samsul.moviedb.ui.components.EmptyStateView
 import com.samsul.moviedb.ui.components.ErrorStateView
 import com.samsul.moviedb.ui.components.GenreListShimmer
 import com.samsul.moviedb.ui.components.OfflineBadge
-import com.samsul.moviedb.domain.model.Genre
-import androidx.compose.ui.tooling.preview.Preview
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
-import com.samsul.moviedb.ui.preview.PreviewConstants
-import com.samsul.moviedb.ui.preview.PreviewData
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 
 @Composable
@@ -468,7 +464,7 @@ fun CinemaGenreCard(
 @Preview(name = PreviewConstants.PREVIEW_ALL_GENRES_SUCCESS, showBackground = true)
 @Composable
 private fun AllGenresScreenSuccessPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         AllGenresContent(
             uiState = AllGenresUiState(
                 isLoading = false,
@@ -486,7 +482,7 @@ private fun AllGenresScreenSuccessPreview() {
 @Preview(name = PreviewConstants.PREVIEW_ALL_GENRES_LOADING, showBackground = true)
 @Composable
 private fun AllGenresScreenLoadingPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         AllGenresContent(
             uiState = AllGenresUiState(
                 isLoading = true,
@@ -504,7 +500,7 @@ private fun AllGenresScreenLoadingPreview() {
 @Preview(name = PreviewConstants.PREVIEW_ALL_GENRES_EMPTY, showBackground = true)
 @Composable
 private fun AllGenresScreenEmptyPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         AllGenresContent(
             uiState = AllGenresUiState(
                 isLoading = false,
@@ -522,7 +518,7 @@ private fun AllGenresScreenEmptyPreview() {
 @Preview(name = PreviewConstants.PREVIEW_GENRE_CARD, showBackground = true)
 @Composable
 private fun CinemaGenreCardPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         Box(modifier = Modifier.padding(16.dp).width(160.dp)) {
             CinemaGenreCard(
                 genre = Genre(28, PreviewConstants.MOCK_GENRE_ACTION),

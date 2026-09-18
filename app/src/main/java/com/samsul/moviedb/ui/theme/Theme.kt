@@ -28,7 +28,7 @@ private val CinemaDarkColorScheme = darkColorScheme(
 )
 
 @Composable
-fun TechnicalTestAndroidTheme(
+fun MovieAndroidTheme(
     content: @Composable () -> Unit
 ) {
     val currentDensity = LocalDensity.current

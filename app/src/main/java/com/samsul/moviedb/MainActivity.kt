@@ -13,7 +13,7 @@ import androidx.core.splashscreen.SplashScreen.Companion.installSplashScreen
 import androidx.navigation.compose.rememberNavController
 import com.samsul.moviedb.presentation.navigation.AppNavGraph
 import com.samsul.moviedb.ui.theme.CinemaBackground
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 
 class MainActivity : ComponentActivity() {
 
@@ -35,7 +35,7 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
         setContent {
-            TechnicalTestAndroidTheme {
+            MovieAndroidTheme {
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = CinemaBackground

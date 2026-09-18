@@ -57,6 +57,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -65,6 +66,9 @@ import coil.compose.SubcomposeAsyncImage
 import coil.request.ImageRequest
 import com.samsul.moviedb.R
 import com.samsul.moviedb.core.util.Constants
+import com.samsul.moviedb.domain.model.MovieDetail
+import com.samsul.moviedb.domain.model.Review
+import com.samsul.moviedb.domain.model.Trailer
 import com.samsul.moviedb.ui.components.AppYouTubePlayer
 import com.samsul.moviedb.ui.components.CinemaPullToRefreshBox
 import com.samsul.moviedb.ui.components.ErrorStateView
@@ -72,18 +76,13 @@ import com.samsul.moviedb.ui.components.OfflineBadge
 import com.samsul.moviedb.ui.components.ReviewItemShimmer
 import com.samsul.moviedb.ui.components.ShimmerBox
 import com.samsul.moviedb.ui.components.openYouTubeVideo
-import com.samsul.moviedb.domain.model.Genre
-import com.samsul.moviedb.domain.model.MovieDetail
-import com.samsul.moviedb.domain.model.Review
-import com.samsul.moviedb.domain.model.Trailer
-import androidx.compose.ui.tooling.preview.Preview
 import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
-import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
+import com.samsul.moviedb.ui.theme.MovieAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -992,7 +991,7 @@ fun CinemaReviewCard(
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_DETAIL_SUCCESS, showBackground = true)
 @Composable
 private fun MovieDetailScreenSuccessPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieDetailContent(
             uiState = MovieDetailUiState(
                 isLoadingDetail = false,
@@ -1011,7 +1010,7 @@ private fun MovieDetailScreenSuccessPreview() {
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_DETAIL_LOADING, showBackground = true)
 @Composable
 private fun MovieDetailScreenLoadingPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieDetailContent(
             uiState = MovieDetailUiState(
                 isLoadingDetail = true,
@@ -1028,7 +1027,7 @@ private fun MovieDetailScreenLoadingPreview() {
 @Preview(name = PreviewConstants.PREVIEW_MOVIE_DETAIL_ERROR, showBackground = true)
 @Composable
 private fun MovieDetailScreenErrorPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         MovieDetailContent(
             uiState = MovieDetailUiState(
                 isLoadingDetail = false,
@@ -1046,7 +1045,7 @@ private fun MovieDetailScreenErrorPreview() {
 @Preview(name = PreviewConstants.PREVIEW_REVIEW_CARD, showBackground = true)
 @Composable
 private fun ReviewCardPreview() {
-    TechnicalTestAndroidTheme {
+    MovieAndroidTheme {
         Box(modifier = Modifier.padding(16.dp)) {
             CinemaReviewCard(
                 review = PreviewData.reviews.first()
