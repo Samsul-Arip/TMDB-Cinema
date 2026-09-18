@@ -1,5 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
-    <style name="Theme.MovieDB" parent="android:Theme.Material.Light.NoActionBar" />
+    <!-- Splash Screen theme applied during app startup to eliminate white screen & green robot -->
+    <style name="Theme.MovieDB.Starting" parent="Theme.SplashScreen">
+        <item name="windowSplashScreenBackground">@color/cinema_splash_bg</item>
+        <item name="windowSplashScreenAnimatedIcon">@drawable/ic_splash_transparent</item>
+        <item name="postSplashScreenTheme">@style/Theme.MovieDB</item>
+
+        <!-- Native Android 12+ (API 31+) splash screen attributes -->
+        <item name="android:windowSplashScreenBackground" tools:targetApi="31">@color/cinema_splash_bg</item>
+        <item name="android:windowSplashScreenAnimatedIcon" tools:targetApi="31">@drawable/ic_splash_transparent</item>
+        <item name="android:windowBackground">@color/cinema_splash_bg</item>
+    </style>
+
+    <!-- Main application theme -->
+    <style name="Theme.MovieDB" parent="android:Theme.Material.NoActionBar">
+        <item name="android:windowBackground">@color/cinema_splash_bg</item>
+        <item name="android:statusBarColor">@android:color/transparent</item>
+        <item name="android:navigationBarColor">@android:color/transparent</item>
+    </style>
 </resources>

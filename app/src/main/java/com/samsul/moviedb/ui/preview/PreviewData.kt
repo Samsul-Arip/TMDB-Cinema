@@ -31,6 +31,7 @@ object PreviewConstants {
     const val PREVIEW_MOVIE_DETAIL_LOADING = "Movie Detail Screen - Loading"
     const val PREVIEW_MOVIE_DETAIL_ERROR = "Movie Detail Screen - Error"
     const val PREVIEW_REVIEW_CARD = "Review Card Preview"
+    const val PREVIEW_SPLASH_SCREEN = "Movie Splash Screen Preview"
 
     // Component Preview Names
     const val PREVIEW_CINEMA_MOVIE_CARD = "Cinema Movie Card Preview"

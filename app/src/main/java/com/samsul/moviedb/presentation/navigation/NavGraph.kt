@@ -16,6 +16,7 @@ import com.samsul.moviedb.presentation.detail.MovieDetailScreen
 import com.samsul.moviedb.presentation.genre.GenreScreen
 import com.samsul.moviedb.presentation.genre.all.AllGenresScreen
 import com.samsul.moviedb.presentation.movielist.MovieListScreen
+import com.samsul.moviedb.presentation.splash.MovieSplashScreen
 
 @Composable
 fun AppNavGraph(
@@ -24,9 +25,23 @@ fun AppNavGraph(
 ) {
     NavHost(
         navController = navController,
-        startDestination = Screen.Genres.route,
+        startDestination = Screen.Splash.route,
         modifier = modifier
     ) {
+        composable(
+            route = Screen.Splash.route,
+            enterTransition = { fadeIn() },
+            exitTransition = { fadeOut() }
+        ) {
+            MovieSplashScreen(
+                onSplashFinished = {
+                    navController.navigate(Screen.Genres.route) {
+                        popUpTo(Screen.Splash.route) { inclusive = true }
+                    }
+                }
+            )
+        }
+
         composable(
             route = Screen.Genres.route,
             enterTransition = { fadeIn() },

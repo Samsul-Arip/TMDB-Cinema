@@ -22,9 +22,9 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import com.samsul.moviedb.ui.preview.PreviewConstants
 import androidx.compose.ui.unit.dp
 import com.samsul.moviedb.R
+import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextTertiary
@@ -33,8 +33,8 @@ import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 @Composable
 fun EmptyStateView(
     message: String,
-    onRetry: (() -> Unit)? = null,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onRetry: (() -> Unit)? = null
 ) {
     Column(
         modifier = modifier

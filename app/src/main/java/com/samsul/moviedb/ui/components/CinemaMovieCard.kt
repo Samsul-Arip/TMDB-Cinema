@@ -36,6 +36,8 @@ import coil.compose.AsyncImage
 import coil.request.ImageRequest
 import com.samsul.moviedb.R
 import com.samsul.moviedb.domain.model.Movie
+import com.samsul.moviedb.ui.preview.PreviewConstants
+import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaCardBackground
 import com.samsul.moviedb.ui.theme.CinemaCardBorderNew
@@ -43,8 +45,6 @@ import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaSurfaceVariant
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
-import com.samsul.moviedb.ui.preview.PreviewConstants
-import com.samsul.moviedb.ui.preview.PreviewData
 import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 
 @Composable
@@ -52,8 +52,8 @@ fun CinemaMovieCard(
     movie: Movie,
     genreName: String?,
     onClick: () -> Unit,
-    onPlayTrailerClick: () -> Unit = onClick,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    onPlayTrailerClick: () -> Unit = onClick
 ) {
     Card(
         modifier = modifier

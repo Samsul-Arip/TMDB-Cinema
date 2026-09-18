@@ -25,25 +25,31 @@ Sebagai gambaran visual dari antarmuka modern yang telah dibangun, berikut adala
 <div align="center">
   <table>
     <tr>
-      <th align="center">🏠 Home / Discover Movies</th>
-      <th align="center">📂 Kategori & Filter Genre</th>
-      <th align="center">🎬 Detail Film & Trailer Player</th>
+      <th align="center">🚀 Splash Screen</th>
+      <th align="center">🏠 Home / Discover</th>
+      <th align="center">📂 Kategori Genre</th>
+      <th align="center">🎬 Detail & Trailer</th>
     </tr>
     <tr>
       <td align="center">
-        <img src="docs/screenshots/home_screen.png" width="280" alt="Home Screen"/>
+        <img src="docs/screenshots/splash_screen.png" width="220" alt="Splash Screen"/>
         <br/>
-        <sub><b>Grid Film, Chip Genre, Shimmer, & Infinite Scroll</b></sub>
+        <sub><b>Animasi Logo, Glow, & TMDB Attribution</b></sub>
       </td>
       <td align="center">
-        <img src="docs/screenshots/genres_screen.png" width="280" alt="Genres Screen"/>
+        <img src="docs/screenshots/home_screen.png" width="220" alt="Home Screen"/>
+        <br/>
+        <sub><b>Grid Film, Chip Genre, & Infinite Scroll</b></sub>
+      </td>
+      <td align="center">
+        <img src="docs/screenshots/genres_screen.png" width="220" alt="Genres Screen"/>
         <br/>
         <sub><b>Navigasi Seluruh Kategori Genre TMDB</b></sub>
       </td>
       <td align="center">
-        <img src="docs/screenshots/detail_screen.png" width="280" alt="Detail Screen"/>
+        <img src="docs/screenshots/detail_screen.png" width="220" alt="Detail Screen"/>
         <br/>
-        <sub><b>Detail Lengkap, Trailer YouTube, & Ulasan Pengguna</b></sub>
+        <sub><b>Detail Lengkap, YouTube Player, & Reviews</b></sub>
       </td>
     </tr>
   </table>
@@ -56,13 +62,14 @@ Sebagai gambaran visual dari antarmuka modern yang telah dibangun, berikut adala
 **TMDB Cinema** adalah aplikasi katalog dan penemuan film Android yang dibangun menggunakan standar industri pengembangan Android terkini. Aplikasi ini mengonsumsi RESTful API resmi dari **The Movie Database (TMDB)** untuk menyajikan data film terkini, ulasan, hingga video trailer resmi.
 
 ### 🌟 Fitur-Fitur Utama:
-1. **Pustaka Film Berdasarkan Genre**: Jelajahi ribuan film dengan navigasi genre yang mulus (*All, Action, Adventure, Animation, Comedy, Crime, Drama, Horror*, dll).
-2. **Offline-First Room Caching**: Data film dan genre yang berhasil diunduh akan otomatis tersimpan di database lokal **Room** secara terisolasi per kategori genre. Saat pengguna tidak memiliki koneksi internet, aplikasi tetap dapat menampilkan data dari cache dengan indikator badge offline yang informatif.
-3. **Pencarian Film Server-Side (TMDB API Search)**: Kolom pencarian responsif langsung terhubung dengan endpoint `GET /search/movie` TMDB yang dilengkapi dengan **Debounce 400ms** untuk efisiensi panggilan jaringan.
-4. **Pemutar Cuplikan Resmi (YouTube Trailer Integration)**: Tonton cuplikan resmi film langsung di dalam aplikasi melalui WebPlayer terintegrasi atau buka secara otomatis di aplikasi YouTube bawaan.
-5. **Ulasan Pengguna (User Reviews)**: Menampilkan review pengguna dengan fitur ekspansi teks ulasan (*Read More / Show Less*) dan pagination.
-6. **Pull-to-Refresh**: Perbarui data film dan genre kapan saja dengan efek animasi tarikan bertema sinematik.
-7. **Fixed System Font Scale (Konsistensi Layout)**: Skala font aplikasi dikunci pada rasio standar (`fontScale = 1.0f`) di tingkat Jetpack Compose dan Android Context, sehingga tata letak UI tetap presisi dan tidak rusak meskipun pengguna mengatur ukuran font di perangkat HP menjadi sangat besar (*Extra Large*).
+1. **Sinematik Splash Screen & Android 12+ SplashScreen API**: Menampilkan intro modern dengan efek animasi skala dan opasitas logo emblem, *ambient radial glow*, teks brand MovieDB, indikator *pulsing loading dots*, serta atribusi resmi TMDB. Terintegrasi penuh dengan `androidx.core:core-splashscreen` untuk pengalaman *cold startup* tanpa *flicker*.
+2. **Pustaka Film Berdasarkan Genre**: Jelajahi ribuan film dengan navigasi genre yang mulus (*All, Action, Adventure, Animation, Comedy, Crime, Drama, Horror*, dll).
+3. **Offline-First Room Caching**: Data film dan genre yang berhasil diunduh akan otomatis tersimpan di database lokal **Room** secara terisolasi per kategori genre. Saat pengguna tidak memiliki koneksi internet, aplikasi tetap dapat menampilkan data dari cache dengan indikator badge offline yang informatif.
+4. **Pencarian Film Server-Side (TMDB API Search)**: Kolom pencarian responsif langsung terhubung dengan endpoint `GET /search/movie` TMDB yang dilengkapi dengan **Debounce 400ms** untuk efisiensi panggilan jaringan.
+5. **Pemutar Cuplikan Resmi (YouTube Trailer Integration)**: Tonton cuplikan resmi film langsung di dalam aplikasi melalui WebPlayer terintegrasi atau buka secara otomatis di aplikasi YouTube bawaan.
+6. **Ulasan Pengguna (User Reviews)**: Menampilkan review pengguna dengan fitur ekspansi teks ulasan (*Read More / Show Less*) dan pagination.
+7. **Pull-to-Refresh**: Perbarui data film dan genre kapan saja dengan efek animasi tarikan bertema sinematik.
+8. **Fixed System Font Scale (Konsistensi Layout)**: Skala font aplikasi dikunci pada rasio standar (`fontScale = 1.0f`) di tingkat Jetpack Compose dan Android Context, sehingga tata letak UI tetap presisi dan tidak rusak meskipun pengguna mengatur ukuran font di perangkat HP menjadi sangat besar (*Extra Large*).
 
 ---
 
@@ -110,13 +117,14 @@ Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Mo
 | Kategori | Teknologi / Library | Kegunaan |
 | :--- | :--- | :--- |
 | **UI Toolkit** | Jetpack Compose & Material 3 | Desain antarmuka modern deklaratif bertema sinematik gelap |
-| **Dependency Injection** | [Koin](https://insert-koin.io/) (v4.0.0) | DI ringan berbasis Kotlin DSL murni untuk injeksi UseCase, ViewModel, dan Repository |
-| **Local Database** | [Room Database](https://developer.android.com/training/data-storage/room) (v2.7.0-alpha11) | Penyimpanan cache offline lokal untuk film, genre, dan detail |
+| **Splash Screen** | [Core SplashScreen](https://developer.android.com/develop/ui/views/launch/splash-screen) (v1.0.1) | Transisi startup halus & integrasi sistem Android 12+ SplashScreen API |
+| **Dependency Injection** | [Koin](https://insert-koin.io/) (v4.0.2) | DI ringan berbasis Kotlin DSL murni untuk injeksi UseCase, ViewModel, dan Repository |
+| **Local Database** | [Room Database](https://developer.android.com/training/data-storage/room) (v2.7.2) | Penyimpanan cache offline lokal untuk film, genre, dan detail |
 | **Networking** | [Retrofit 2](https://square.github.io/retrofit/) & [OkHttp 3](https://square.github.io/okhttp/) | REST API client dengan Logging Interceptor dan Authentication Interceptor |
 | **Asynchronous** | Kotlin Coroutines & Flow | Pemrograman asinkron reaktif non-blocking |
-| **Image Loading** | [Coil 3](https://coil-kt.github.io/coil/) (v3.0.4) | Pemuatan dan *caching* poster & backdrop film dari TMDB |
+| **Image Loading** | [Coil](https://coil-kt.github.io/coil/) (v2.7.0) | Pemuatan dan *caching* poster & backdrop film dari TMDB |
 | **Navigation** | Jetpack Navigation Compose | Navigasi halaman antar layar berbasis rute Compose |
-| **Media Player** | Android WebKit WebView | Pemutaran video cuplikan YouTube IFrame API secara aman |
+| **Media Player** | Android YouTube Player (v13.0.0) | Pemutaran video cuplikan resmi YouTube terintegrasi |
 | **Testing** | JUnit 4 & Coroutines Test | Pengujian unit test logika domain dan repositori |
 | **Build System** | Gradle Kotlin DSL (`build.gradle.kts`) | Konfigurasi otomatis dependensi proyek |
 
@@ -128,13 +136,12 @@ Aplikasi menerapkan **Clean Architecture** yang dipadukan dengan pola **MVVM (Mo
 com.samsul.moviedb/
 ├── core/
 │   ├── network/                # AuthInterceptor, NetworkMonitor
-│   ├── ui/components/          # CinemaMovieCard, Shimmer, EmptyState, OfflineBadge, dll
-│   └── util/                   # Resource wrapper (Success, Error, Loading)
+│   └── util/                   # Constants (Keys, Errors, Endpoints), Resource wrapper (Success, Error, Loading)
 ├── data/
-│   ├── local/                  # AppDatabase, DAOs (Movie, Genre, Detail, Review), Entities
+│   ├── local/                  # AppDatabase, DAOs (Movie, Genre, Detail, Review), Entities, Converters
 │   ├── mapper/                 # Entity & DTO to Domain Model mappers
 │   ├── remote/                 # TmdbApiService, DTOs (Data Transfer Objects)
-│   └── repository/             # MovieRepositoryImpl (Strategi Offline-First & Network)
+│   └── repository/             # MovieRepositoryImpl (Strategi Offline-First Room & Network Fetch)
 ├── di/
 │   └── AppModule.kt            # Koin Modules (Network, Database, Repository, UseCase, ViewModel)
 ├── domain/
@@ -142,11 +149,16 @@ com.samsul.moviedb/
 │   ├── repository/             # Kontrak interface MovieRepository
 │   └── usecase/                # Single-responsibility business logic (Search, Discover, Detail, dll)
 ├── presentation/
-│   ├── detail/                 # MovieDetailScreen, ViewModel, UIState, YouTubePlayerView
+│   ├── detail/                 # MovieDetailScreen, ViewModel, UIState
 │   ├── genre/                  # GenreScreen (Home), ViewModel, UIState, AllGenresScreen
-│   ├── movielist/              # MovieListScreen per genre
-│   └── navigation/             # AppNavGraph, Screen destinations
-└── ui/theme/                   # Cinema Color Palette, Theme (Locked FontScale), Typography
+│   ├── movielist/              # MovieListScreen per genre, ViewModel, UIState
+│   ├── navigation/             # AppNavGraph, Screen routes (Splash, Genres, AllGenres, MovieList, MovieDetail)
+│   └── splash/                 # MovieSplashScreen (Scale & Alpha Animations, Ambient Glow, Loader Dots)
+└── ui/
+    ├── components/             # Reusable UI Components (CinemaMovieCard, MoviePosterCard, YouTubePlayerView,
+    │                           #   LoadingShimmer, EmptyStateView, ErrorStateView, OfflineBadge, CinemaPullToRefresh)
+    ├── preview/                # PreviewConstants (Compile-time preview names & mock values) & PreviewData (Mock models)
+    └── theme/                  # Cinema Color Palette, Dark Theme (Locked FontScale), Typography
 ```
 
 ---

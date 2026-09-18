@@ -6,7 +6,6 @@ import android.content.Context
 import android.content.ContextWrapper
 import android.content.Intent
 import android.content.pm.ActivityInfo
-import android.net.Uri
 import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
@@ -43,14 +42,14 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalInspectionMode
-import androidx.compose.ui.tooling.preview.Preview
-import com.samsul.moviedb.ui.preview.PreviewConstants
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.viewinterop.AndroidView
+import androidx.core.net.toUri
 import androidx.core.view.WindowCompat
 import androidx.core.view.WindowInsetsCompat
 import androidx.core.view.WindowInsetsControllerCompat
@@ -62,6 +61,7 @@ import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.listeners.Ful
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.options.IFramePlayerOptions
 import com.pierfrancescosoffritti.androidyoutubeplayer.core.player.views.YouTubePlayerView
 import com.samsul.moviedb.R
+import com.samsul.moviedb.ui.preview.PreviewConstants
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 
 fun Context.findActivity(): Activity? {
@@ -80,10 +80,10 @@ private const val YOUTUBE_WEB_URL_PREFIX = "https://www.youtube.com/watch?v="
  * Utility to launch a YouTube video in the native app or fallback to browser.
  */
 fun openYouTubeVideo(context: Context, videoId: String) {
-    val appIntent = Intent(Intent.ACTION_VIEW, Uri.parse("$YOUTUBE_APP_URI_PREFIX$videoId")).apply {
+    val appIntent = Intent(Intent.ACTION_VIEW, "$YOUTUBE_APP_URI_PREFIX$videoId".toUri()).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
-    val webIntent = Intent(Intent.ACTION_VIEW, Uri.parse("$YOUTUBE_WEB_URL_PREFIX$videoId")).apply {
+    val webIntent = Intent(Intent.ACTION_VIEW, "$YOUTUBE_WEB_URL_PREFIX$videoId".toUri()).apply {
         addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
     }
     try {

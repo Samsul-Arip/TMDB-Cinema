@@ -3,17 +3,12 @@
 
     <!-- Genre & Cinema Home Screen -->
     <string name="all_genres">All</string>
-    <string name="categories_title">Genres</string>
-    <string name="latest_movies_title">Latest Movies</string>
-    <string name="popular_movies_title">Popular Movies</string>
     <string name="view_all">View all ›</string>
     <string name="play_trailer">▶ Play Trailer</string>
     <string name="search_hint">Search movies…</string>
     <string name="rating_star_format">★ %1$.1f</string>
     <string name="year_genre_format">%1$s • %2$s</string>
     <string name="genres_title">Genres</string>
-    <string name="genres_subtitle">Explore thousands of movies by your favorite genre</string>
-    <string name="select_genre_prompt">Select a genre to discover movies</string>
     <string name="all_genres_title">Movie Genres</string>
     <string name="all_genres_subtitle">Explore movies across all TMDB categories</string>
     <string name="search_genres_hint">Search genre…</string>
@@ -22,27 +17,18 @@
     <string name="all_movies_subtitle">Discover all movies</string>
 
     <!-- Movie List / Discover Screen -->
-    <string name="movies_title">Movies</string>
     <string name="movies_in_genre">%1$s Movies</string>
     <string name="release_date_label">%1$s</string>
     <string name="rating_format">%1$.1f</string>
-    <string name="vote_count_format">(%1$d)</string>
 
     <!-- Movie Detail Screen -->
-    <string name="movie_detail_title">Movie Details</string>
     <string name="synopsis_title">Overview</string>
-    <string name="genres_label">Genres</string>
-    <string name="runtime_format">%1$d mins</string>
-    <string name="status_label">Status: %1$s</string>
-    <string name="release_date_prefix">Released: %1$s</string>
     <string name="trailer_section_title">Official Trailer</string>
     <string name="no_trailer_available">No official trailer available for this movie.</string>
-    <string name="reviews_section_title">User Reviews</string>
     <string name="reviews_count_format">User Reviews (%1$d)</string>
     <string name="no_reviews_available">No reviews found for this movie yet.</string>
     <string name="read_more">Read more</string>
     <string name="read_less">Show less</string>
-    <string name="written_by">Review by %1$s</string>
     <string name="anonymous_user">Anonymous Reviewer</string>
     <string name="watch_trailer_action">Tonton Cuplikan</string>
     <string name="open_in_youtube">Tonton di YouTube</string>
@@ -60,13 +46,11 @@
     <!-- States & Common Actions -->
     <string name="retry">Try Again</string>
     <string name="error_network">Network connection issue. Please check your internet connection.</string>
-    <string name="error_unknown">An unexpected error occurred. Please try again.</string>
     <string name="empty_movies">No movies found in this genre.</string>
     <string name="empty_search_movies">No movies found for \"%1$s\".</string>
     <string name="empty_genres">No genres available right now.</string>
     <string name="offline_cached_data">Offline Mode: Displaying cached data</string>
     <string name="loading_more">Loading more movies…</string>
-    <string name="loading_data">Loading data…</string>
 
     <!-- Content Descriptions for Accessibility -->
     <string name="content_desc_movie_poster">Movie poster of %1$s</string>
@@ -76,11 +60,15 @@
     <string name="content_desc_star">Rating</string>
     <string name="content_desc_offline">Offline icon</string>
     <string name="content_desc_play_trailer">Play trailer</string>
-    <string name="content_desc_more">More options</string>
     <string name="content_desc_youtube">YouTube</string>
     <string name="content_desc_clear">Clear</string>
     <string name="content_desc_search">Search</string>
     <string name="brand_part_one">Movie</string>
     <string name="brand_part_two">DB</string>
     <string name="chevron_arrow">›</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_tagline">Discover Endless Cinema Experience</string>
+    <string name="splash_tmdb_attribution">POWERED BY THE MOVIE DATABASE</string>
+    <string name="content_desc_app_logo">MovieDB Logo</string>
 </resources>
