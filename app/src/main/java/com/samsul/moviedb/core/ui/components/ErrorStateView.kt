@@ -21,12 +21,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.samsul.moviedb.R
 import com.samsul.moviedb.ui.theme.CinemaError
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 
 @Composable
 fun ErrorStateView(
@@ -87,3 +89,15 @@ fun ErrorStateView(
         }
     }
 }
+
+@Preview(name = "Error State Preview", showBackground = true)
+@Composable
+private fun ErrorStateViewPreview() {
+    TechnicalTestAndroidTheme {
+        ErrorStateView(
+            message = "Failed to load movie data. Please check your connection.",
+            onRetry = {}
+        )
+    }
+}
+

@@ -21,11 +21,13 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.samsul.moviedb.R
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextTertiary
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 
 @Composable
 fun EmptyStateView(
@@ -78,3 +80,15 @@ fun EmptyStateView(
         }
     }
 }
+
+@Preview(name = "Empty State Preview", showBackground = true)
+@Composable
+private fun EmptyStateViewPreview() {
+    TechnicalTestAndroidTheme {
+        EmptyStateView(
+            message = "No movies found in this genre.",
+            onRetry = {}
+        )
+    }
+}
+

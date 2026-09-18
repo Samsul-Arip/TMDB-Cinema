@@ -21,10 +21,12 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.samsul.moviedb.R
 import com.samsul.moviedb.ui.theme.CinemaGold
 import com.samsul.moviedb.ui.theme.CinemaSurfaceVariant
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 
 @Composable
 fun OfflineBadge(
@@ -60,3 +62,12 @@ fun OfflineBadge(
         }
     }
 }
+
+@Preview(name = "Offline Badge Preview", showBackground = true)
+@Composable
+private fun OfflineBadgePreview() {
+    TechnicalTestAndroidTheme {
+        OfflineBadge(isFromCache = true)
+    }
+}
+

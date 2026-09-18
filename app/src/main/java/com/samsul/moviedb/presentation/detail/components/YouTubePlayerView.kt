@@ -42,6 +42,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalInspectionMode
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
@@ -104,6 +106,25 @@ fun AppYouTubePlayer(
     val context = LocalContext.current
     val lifecycleOwner = LocalLifecycleOwner.current
     val activity = remember(context) { context.findActivity() }
+
+    if (LocalInspectionMode.current) {
+        Box(
+            modifier = modifier
+                .fillMaxWidth()
+                .height(210.dp)
+                .clip(RoundedCornerShape(18.dp))
+                .background(Color.Black),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = Icons.Rounded.PlayArrow,
+                contentDescription = null,
+                tint = CinemaAmberStart,
+                modifier = Modifier.size(48.dp)
+            )
+        }
+        return
+    }
 
     var isReady by remember { mutableStateOf(false) }
     var hasError by remember { mutableStateOf(false) }
@@ -296,4 +317,11 @@ fun AppYouTubePlayer(
         }
     }
 }
+
+@Preview(name = "YouTube Player Placeholder Preview", showBackground = true)
+@Composable
+private fun AppYouTubePlayerPreview() {
+    AppYouTubePlayer(videoId = "dQw4w9WgXcQ")
+}
+
 

@@ -70,13 +70,16 @@ import com.samsul.moviedb.core.ui.components.EmptyStateView
 import com.samsul.moviedb.core.ui.components.ErrorStateView
 import com.samsul.moviedb.core.ui.components.MovieGridShimmer
 import com.samsul.moviedb.core.ui.components.OfflineBadge
+import androidx.compose.ui.tooling.preview.Preview
+import com.samsul.moviedb.domain.model.Genre
+import com.samsul.moviedb.domain.model.Movie
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun GenreScreen(
     onMovieClick: (movieId: Int) -> Unit,
@@ -84,6 +87,33 @@ fun GenreScreen(
     viewModel: GenreViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    GenreContent(
+        uiState = uiState,
+        onMovieClick = onMovieClick,
+        onViewAllGenresClick = onViewAllGenresClick,
+        onGenreSelect = { viewModel.selectGenre(it) },
+        onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
+        onToggleSearch = { viewModel.toggleSearch() },
+        onRefresh = { viewModel.refresh() },
+        onLoadMore = { viewModel.loadNextMoviePage() },
+        onRetry = { viewModel.retry() }
+    )
+}
+
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun GenreContent(
+    uiState: GenreUiState,
+    onMovieClick: (movieId: Int) -> Unit,
+    onViewAllGenresClick: () -> Unit,
+    onGenreSelect: (genreId: Int) -> Unit,
+    onSearchQueryChange: (query: String) -> Unit,
+    onToggleSearch: () -> Unit,
+    onRefresh: () -> Unit,
+    onLoadMore: () -> Unit,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val gridState = rememberLazyGridState()
 
     // Map genreId to genreName for fast lookup
@@ -120,16 +150,17 @@ fun GenreScreen(
 
     LaunchedEffect(shouldPaginate) {
         if (shouldPaginate && !uiState.isLoadingMovies && !uiState.isLoadingMore && uiState.canPaginate && uiState.searchQuery.isBlank()) {
-            viewModel.loadNextMoviePage()
+            onLoadMore()
         }
     }
 
     Scaffold(
+        modifier = modifier,
         containerColor = Color(0xFF08090E)
     ) { innerPadding ->
         CinemaPullToRefreshBox(
             isRefreshing = uiState.isRefreshing,
-            onRefresh = { viewModel.refresh() },
+            onRefresh = onRefresh,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -207,7 +238,7 @@ fun GenreScreen(
                             .clip(CircleShape)
                             .background(Color(0xFF141724))
                             .border(BorderStroke(1.dp, Color(0xFF252A3C)), CircleShape)
-                            .clickable { viewModel.toggleSearch() },
+                            .clickable { onToggleSearch() },
                         contentAlignment = Alignment.Center
                     ) {
                         Icon(
@@ -227,7 +258,7 @@ fun GenreScreen(
                 ) {
                     OutlinedTextField(
                         value = uiState.searchQuery,
-                        onValueChange = { viewModel.onSearchQueryChange(it) },
+                        onValueChange = { onSearchQueryChange(it) },
                         placeholder = {
                             Text(
                                 text = stringResource(R.string.search_hint),
@@ -237,7 +268,7 @@ fun GenreScreen(
                         },
                         trailingIcon = {
                             if (uiState.searchQuery.isNotEmpty()) {
-                                IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
+                                IconButton(onClick = { onSearchQueryChange("") }) {
                                     Icon(
                                         imageVector = Icons.Rounded.Close,
                                         contentDescription = "Clear",
@@ -287,7 +318,7 @@ fun GenreScreen(
                             SvgCategoryChip(
                                 title = stringResource(R.string.all_genres),
                                 isSelected = uiState.selectedGenreId == 0,
-                                onClick = { viewModel.selectGenre(0) }
+                                onClick = { onGenreSelect(0) }
                             )
                         }
 
@@ -299,7 +330,7 @@ fun GenreScreen(
                             SvgCategoryChip(
                                 title = genre.name,
                                 isSelected = uiState.selectedGenreId == genre.id,
-                                onClick = { viewModel.selectGenre(genre.id) }
+                                onClick = { onGenreSelect(genre.id) }
                             )
                         }
                     }
@@ -315,7 +346,7 @@ fun GenreScreen(
                     uiState.errorMessage != null && uiState.movies.isEmpty() && uiState.searchQuery.isBlank() -> {
                         ErrorStateView(
                             message = uiState.errorMessage ?: stringResource(R.string.error_network),
-                            onRetry = { viewModel.retry() },
+                            onRetry = onRetry,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -327,7 +358,7 @@ fun GenreScreen(
                         }
                         EmptyStateView(
                             message = emptyMsg,
-                            onRetry = if (uiState.searchQuery.isNotBlank()) null else ({ viewModel.retry() }),
+                            onRetry = if (uiState.searchQuery.isNotBlank()) null else onRetry,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -469,3 +500,121 @@ fun SvgCategoryChip(
         }
     }
 }
+
+// ================= PREVIEWS =================
+
+@Preview(name = "Genre Screen - Success", showBackground = true)
+@Composable
+private fun GenreScreenSuccessPreview() {
+    TechnicalTestAndroidTheme {
+        GenreContent(
+            uiState = GenreUiState(
+                isLoadingGenres = false,
+                isLoadingMovies = false,
+                genres = listOf(
+                    Genre(28, "Action"),
+                    Genre(12, "Adventure"),
+                    Genre(16, "Animation"),
+                    Genre(35, "Comedy")
+                ),
+                selectedGenreId = 0,
+                movies = listOf(
+                    Movie(1, "Toy Story 5", "Woody and Buzz return", "/poster1.jpg", "/backdrop1.jpg", "2026", 8.4, 500, listOf(16)),
+                    Movie(2, "Resident Evil", "Survival action", "/poster2.jpg", "/backdrop2.jpg", "2026", 8.1, 400, listOf(28)),
+                    Movie(3, "Colony", "Sci-fi thriller", "/poster3.jpg", "/backdrop3.jpg", "2026", 8.1, 300, listOf(878)),
+                    Movie(4, "The Odyssey", "Epic ancient Greece", "/poster4.jpg", "/backdrop4.jpg", "2026", 8.0, 200, listOf(12))
+                )
+            ),
+            onMovieClick = {},
+            onViewAllGenresClick = {},
+            onGenreSelect = {},
+            onSearchQueryChange = {},
+            onToggleSearch = {},
+            onRefresh = {},
+            onLoadMore = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "Genre Screen - Loading", showBackground = true)
+@Composable
+private fun GenreScreenLoadingPreview() {
+    TechnicalTestAndroidTheme {
+        GenreContent(
+            uiState = GenreUiState(
+                isLoadingGenres = true,
+                isLoadingMovies = true
+            ),
+            onMovieClick = {},
+            onViewAllGenresClick = {},
+            onGenreSelect = {},
+            onSearchQueryChange = {},
+            onToggleSearch = {},
+            onRefresh = {},
+            onLoadMore = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "Genre Screen - Search Active", showBackground = true)
+@Composable
+private fun GenreScreenSearchPreview() {
+    TechnicalTestAndroidTheme {
+        GenreContent(
+            uiState = GenreUiState(
+                isSearchActive = true,
+                searchQuery = "Toy",
+                searchResults = listOf(
+                    Movie(1, "Toy Story 5", "Woody and Buzz return", "/poster1.jpg", "/backdrop1.jpg", "2026", 8.4, 500, listOf(16))
+                )
+            ),
+            onMovieClick = {},
+            onViewAllGenresClick = {},
+            onGenreSelect = {},
+            onSearchQueryChange = {},
+            onToggleSearch = {},
+            onRefresh = {},
+            onLoadMore = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "Genre Screen - Empty", showBackground = true)
+@Composable
+private fun GenreScreenEmptyPreview() {
+    TechnicalTestAndroidTheme {
+        GenreContent(
+            uiState = GenreUiState(
+                isLoadingGenres = false,
+                isLoadingMovies = false,
+                movies = emptyList()
+            ),
+            onMovieClick = {},
+            onViewAllGenresClick = {},
+            onGenreSelect = {},
+            onSearchQueryChange = {},
+            onToggleSearch = {},
+            onRefresh = {},
+            onLoadMore = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "Category Chip Preview", showBackground = true)
+@Composable
+private fun SvgCategoryChipPreview() {
+    TechnicalTestAndroidTheme {
+        Row(
+            modifier = Modifier.padding(16.dp),
+            horizontalArrangement = Arrangement.spacedBy(8.dp)
+        ) {
+            SvgCategoryChip(title = "All", isSelected = true, onClick = {})
+            SvgCategoryChip(title = "Action", isSelected = false, onClick = {})
+        }
+    }
+}
+

@@ -67,13 +67,14 @@ import com.samsul.moviedb.core.ui.components.ErrorStateView
 import com.samsul.moviedb.core.ui.components.GenreListShimmer
 import com.samsul.moviedb.core.ui.components.OfflineBadge
 import com.samsul.moviedb.domain.model.Genre
+import androidx.compose.ui.tooling.preview.Preview
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaMutedSubtitle
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 
-@OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun AllGenresScreen(
     onGenreClick: (genreId: Int, genreName: String) -> Unit,
@@ -81,12 +82,33 @@ fun AllGenresScreen(
     viewModel: AllGenresViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    AllGenresContent(
+        uiState = uiState,
+        onGenreClick = onGenreClick,
+        onBackClick = onBackClick,
+        onSearchQueryChange = { viewModel.onSearchQueryChange(it) },
+        onRefresh = { viewModel.refresh() },
+        onRetry = { viewModel.loadGenres() }
+    )
+}
 
+@OptIn(ExperimentalMaterial3Api::class)
+@Composable
+fun AllGenresContent(
+    uiState: AllGenresUiState,
+    onGenreClick: (genreId: Int, genreName: String) -> Unit,
+    onBackClick: () -> Unit,
+    onSearchQueryChange: (query: String) -> Unit,
+    onRefresh: () -> Unit,
+    onRetry: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val distinctGenres = remember(uiState.filteredGenres) {
         uiState.filteredGenres.distinctBy { it.id }
     }
 
     Scaffold(
+        modifier = modifier,
         containerColor = Color(0xFF08090E),
         topBar = {
             TopAppBar(
@@ -135,7 +157,7 @@ fun AllGenresScreen(
     ) { innerPadding ->
         CinemaPullToRefreshBox(
             isRefreshing = uiState.isRefreshing,
-            onRefresh = { viewModel.refresh() },
+            onRefresh = onRefresh,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -155,7 +177,7 @@ fun AllGenresScreen(
                 // Search Bar for Genres
                 OutlinedTextField(
                     value = uiState.searchQuery,
-                    onValueChange = { viewModel.onSearchQueryChange(it) },
+                    onValueChange = { onSearchQueryChange(it) },
                     placeholder = {
                         Text(
                             text = stringResource(R.string.search_genres_hint),
@@ -173,7 +195,7 @@ fun AllGenresScreen(
                     },
                     trailingIcon = {
                         if (uiState.searchQuery.isNotEmpty()) {
-                            IconButton(onClick = { viewModel.onSearchQueryChange("") }) {
+                            IconButton(onClick = { onSearchQueryChange("") }) {
                                 Icon(
                                     imageVector = Icons.Rounded.Close,
                                     contentDescription = "Clear",
@@ -208,7 +230,7 @@ fun AllGenresScreen(
                     uiState.errorMessage != null && uiState.genres.isEmpty() -> {
                         ErrorStateView(
                             message = uiState.errorMessage ?: stringResource(R.string.error_network),
-                            onRetry = { viewModel.loadGenres() },
+                            onRetry = onRetry,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -216,7 +238,7 @@ fun AllGenresScreen(
                     distinctGenres.isEmpty() && !uiState.isLoading -> {
                         EmptyStateView(
                             message = stringResource(R.string.empty_genres),
-                            onRetry = { viewModel.loadGenres() },
+                            onRetry = onRetry,
                             modifier = Modifier.fillMaxSize()
                         )
                     }
@@ -437,3 +459,80 @@ fun CinemaGenreCard(
         }
     }
 }
+
+// ================= PREVIEWS =================
+
+@Preview(name = "All Genres Screen - Success", showBackground = true)
+@Composable
+private fun AllGenresScreenSuccessPreview() {
+    TechnicalTestAndroidTheme {
+        AllGenresContent(
+            uiState = AllGenresUiState(
+                isLoading = false,
+                genres = listOf(
+                    Genre(28, "Action"),
+                    Genre(12, "Adventure"),
+                    Genre(16, "Animation"),
+                    Genre(35, "Comedy"),
+                    Genre(80, "Crime"),
+                    Genre(99, "Documentary")
+                )
+            ),
+            onGenreClick = { _, _ -> },
+            onBackClick = {},
+            onSearchQueryChange = {},
+            onRefresh = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "All Genres Screen - Loading", showBackground = true)
+@Composable
+private fun AllGenresScreenLoadingPreview() {
+    TechnicalTestAndroidTheme {
+        AllGenresContent(
+            uiState = AllGenresUiState(
+                isLoading = true,
+                genres = emptyList()
+            ),
+            onGenreClick = { _, _ -> },
+            onBackClick = {},
+            onSearchQueryChange = {},
+            onRefresh = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "All Genres Screen - Empty", showBackground = true)
+@Composable
+private fun AllGenresScreenEmptyPreview() {
+    TechnicalTestAndroidTheme {
+        AllGenresContent(
+            uiState = AllGenresUiState(
+                isLoading = false,
+                genres = emptyList()
+            ),
+            onGenreClick = { _, _ -> },
+            onBackClick = {},
+            onSearchQueryChange = {},
+            onRefresh = {},
+            onRetry = {}
+        )
+    }
+}
+
+@Preview(name = "Genre Category Card Preview", showBackground = true)
+@Composable
+private fun CinemaGenreCardPreview() {
+    TechnicalTestAndroidTheme {
+        Box(modifier = Modifier.padding(16.dp).width(160.dp)) {
+            CinemaGenreCard(
+                genre = Genre(28, "Action"),
+                onClick = {}
+            )
+        }
+    }
+}
+

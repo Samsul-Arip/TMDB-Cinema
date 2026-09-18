@@ -32,6 +32,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import coil.compose.SubcomposeAsyncImage
@@ -44,6 +45,7 @@ import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaSurface
 import com.samsul.moviedb.ui.theme.CinemaTextPrimary
 import com.samsul.moviedb.ui.theme.CinemaTextSecondary
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 
 @Composable
 fun MoviePosterCard(
@@ -164,3 +166,27 @@ fun MoviePosterCard(
         }
     }
 }
+
+@Preview(name = "Movie Poster Card Preview", showBackground = true)
+@Composable
+private fun MoviePosterCardPreview() {
+    TechnicalTestAndroidTheme {
+        Box(modifier = Modifier.padding(16.dp).width(160.dp)) {
+            MoviePosterCard(
+                movie = Movie(
+                    id = 1,
+                    title = "Resident Evil",
+                    overview = "An action horror film.",
+                    posterPath = "/path/to/poster.jpg",
+                    backdropPath = "/path/to/backdrop.jpg",
+                    releaseDate = "2026-09-01",
+                    voteAverage = 8.1,
+                    voteCount = 450,
+                    genreIds = listOf(28)
+                ),
+                onClick = {}
+            )
+        }
+    }
+}
+

@@ -69,15 +69,18 @@ import com.samsul.moviedb.core.ui.components.ErrorStateView
 import com.samsul.moviedb.core.ui.components.OfflineBadge
 import com.samsul.moviedb.core.ui.components.ReviewItemShimmer
 import com.samsul.moviedb.core.ui.components.ShimmerBox
+import com.samsul.moviedb.domain.model.Genre
 import com.samsul.moviedb.domain.model.MovieDetail
 import com.samsul.moviedb.domain.model.Review
 import com.samsul.moviedb.domain.model.Trailer
 import com.samsul.moviedb.presentation.detail.components.AppYouTubePlayer
 import com.samsul.moviedb.presentation.detail.components.openYouTubeVideo
+import androidx.compose.ui.tooling.preview.Preview
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
 import com.samsul.moviedb.ui.theme.CinemaAmberStart
 import com.samsul.moviedb.ui.theme.CinemaRatingStar
 import com.samsul.moviedb.ui.theme.CinemaTopAmbientGlow
+import com.samsul.moviedb.ui.theme.TechnicalTestAndroidTheme
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
@@ -88,6 +91,24 @@ fun MovieDetailScreen(
     viewModel: MovieDetailViewModel = koinViewModel(parameters = { parametersOf(movieId) })
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
+    MovieDetailContent(
+        uiState = uiState,
+        onBackClick = onBackClick,
+        onRefresh = { viewModel.refresh() },
+        onRetry = { viewModel.loadAll() },
+        onLoadMoreReviews = { viewModel.loadNextReviewPage() }
+    )
+}
+
+@Composable
+fun MovieDetailContent(
+    uiState: MovieDetailUiState,
+    onBackClick: () -> Unit,
+    onRefresh: () -> Unit,
+    onRetry: () -> Unit,
+    onLoadMoreReviews: () -> Unit,
+    modifier: Modifier = Modifier
+) {
     val listState = rememberLazyListState()
 
     val distinctReviews = remember(uiState.reviews) {
@@ -115,16 +136,17 @@ fun MovieDetailScreen(
 
     LaunchedEffect(shouldLoadMoreReviews) {
         if (shouldLoadMoreReviews) {
-            viewModel.loadNextReviewPage()
+            onLoadMoreReviews()
         }
     }
 
     Scaffold(
+        modifier = modifier,
         containerColor = Color(0xFF08090E)
     ) { innerPadding ->
         CinemaPullToRefreshBox(
             isRefreshing = uiState.isRefreshing,
-            onRefresh = { viewModel.refresh() },
+            onRefresh = onRefresh,
             modifier = Modifier
                 .fillMaxSize()
                 .padding(innerPadding)
@@ -188,7 +210,7 @@ fun MovieDetailScreen(
                 uiState.detailError != null && uiState.movieDetail == null -> {
                     ErrorStateView(
                         message = uiState.detailError ?: stringResource(R.string.error_network),
-                        onRetry = { viewModel.loadAll() },
+                        onRetry = onRetry,
                         modifier = Modifier.fillMaxSize()
                     )
                 }
@@ -958,3 +980,100 @@ fun CinemaReviewCard(
         }
     }
 }
+
+// ================= PREVIEWS =================
+
+@Preview(name = "Movie Detail Screen - Success", showBackground = true)
+@Composable
+private fun MovieDetailScreenSuccessPreview() {
+    TechnicalTestAndroidTheme {
+        MovieDetailContent(
+            uiState = MovieDetailUiState(
+                isLoadingDetail = false,
+                movieDetail = MovieDetail(
+                    id = 1,
+                    title = "Colony",
+                    overview = "Professor Se-jeong is thrust into a bloody nightmare when a rapidly mutating virus is released during a biotech conference causing authorities to seal the facility. Trapped inside with no escape, Se-jeong must fight for survival.",
+                    posterPath = "/poster.jpg",
+                    backdropPath = "/backdrop.jpg",
+                    releaseDate = "2026-04-12",
+                    voteAverage = 8.1,
+                    voteCount = 420,
+                    runtime = 123,
+                    status = "Released",
+                    genres = listOf(
+                        Genre(28, "Action"),
+                        Genre(27, "Horror"),
+                        Genre(878, "Science Fiction")
+                    )
+                ),
+                trailers = listOf(
+                    Trailer("t1", "dQw4w9WgXcQ", "Official Trailer", "YouTube", "Trailer", true)
+                ),
+                reviews = listOf(
+                    Review("r1", "Leno", "Great visual effects and intense atmosphere throughout the whole runtime. Must watch!", "2026-09-02", null, 9.0),
+                    Review("r2", "Sarah", "A gripping survival thriller with stellar performances.", "2026-09-05", null, 8.5)
+                )
+            ),
+            onBackClick = {},
+            onRefresh = {},
+            onRetry = {},
+            onLoadMoreReviews = {}
+        )
+    }
+}
+
+@Preview(name = "Movie Detail Screen - Loading", showBackground = true)
+@Composable
+private fun MovieDetailScreenLoadingPreview() {
+    TechnicalTestAndroidTheme {
+        MovieDetailContent(
+            uiState = MovieDetailUiState(
+                isLoadingDetail = true,
+                movieDetail = null
+            ),
+            onBackClick = {},
+            onRefresh = {},
+            onRetry = {},
+            onLoadMoreReviews = {}
+        )
+    }
+}
+
+@Preview(name = "Movie Detail Screen - Error", showBackground = true)
+@Composable
+private fun MovieDetailScreenErrorPreview() {
+    TechnicalTestAndroidTheme {
+        MovieDetailContent(
+            uiState = MovieDetailUiState(
+                isLoadingDetail = false,
+                movieDetail = null,
+                detailError = "Network connection issue. Please check your internet connection."
+            ),
+            onBackClick = {},
+            onRefresh = {},
+            onRetry = {},
+            onLoadMoreReviews = {}
+        )
+    }
+}
+
+@Preview(name = "Review Card Preview", showBackground = true)
+@Composable
+private fun ReviewCardPreview() {
+    TechnicalTestAndroidTheme {
+        Box(modifier = Modifier.padding(16.dp)) {
+            CinemaReviewCard(
+                review = Review(
+                    id = "r1",
+                    author = "Leno",
+                    content = "Great visual effects and intense atmosphere throughout the whole runtime. Highly recommended for fans of the genre!",
+                    createdAt = "2026-09-02",
+                    avatarPath = null,
+                    rating = 9.0
+                )
+            )
+        }
+    }
+}
+
