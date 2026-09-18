@@ -1,4 +1,4 @@
-package com.samsul.moviedb.core.ui.components
+package com.samsul.moviedb.ui.components
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn

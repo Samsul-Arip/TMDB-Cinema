@@ -1,4 +1,4 @@
-package com.samsul.moviedb.presentation.detail.components
+package com.samsul.moviedb.ui.components
 
 import android.app.Activity
 import android.content.ActivityNotFoundException

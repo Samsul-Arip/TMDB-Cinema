@@ -1,4 +1,4 @@
-package com.samsul.moviedb.core.ui.components
+package com.samsul.moviedb.ui.components
 
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloat

@@ -61,11 +61,11 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import com.samsul.moviedb.R
-import com.samsul.moviedb.core.ui.components.CinemaPullToRefreshBox
-import com.samsul.moviedb.core.ui.components.EmptyStateView
-import com.samsul.moviedb.core.ui.components.ErrorStateView
-import com.samsul.moviedb.core.ui.components.GenreListShimmer
-import com.samsul.moviedb.core.ui.components.OfflineBadge
+import com.samsul.moviedb.ui.components.CinemaPullToRefreshBox
+import com.samsul.moviedb.ui.components.EmptyStateView
+import com.samsul.moviedb.ui.components.ErrorStateView
+import com.samsul.moviedb.ui.components.GenreListShimmer
+import com.samsul.moviedb.ui.components.OfflineBadge
 import com.samsul.moviedb.domain.model.Genre
 import androidx.compose.ui.tooling.preview.Preview
 import com.samsul.moviedb.ui.theme.CinemaAmberEnd
