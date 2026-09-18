@@ -16,6 +16,7 @@ import org.junit.Assert.assertTrue
 import org.junit.Before
 import org.junit.Rule
 import org.junit.Test
+import kotlin.time.Duration.Companion.milliseconds
 
 @OptIn(ExperimentalCoroutinesApi::class)
 class GenreViewModelTest {
@@ -92,7 +93,7 @@ class GenreViewModelTest {
         viewModel.onSearchQueryChange("Test")
         assertEquals("Test", viewModel.uiState.value.searchQuery)
 
-        advanceTimeBy(500)
+        advanceTimeBy(500.milliseconds)
 
         val state = viewModel.uiState.value
         assertFalse(state.isSearching)
